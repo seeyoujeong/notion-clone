@@ -4,7 +4,7 @@ interface AppProps {
 
 class App {
   constructor({ targetEl }: AppProps) {
-    targetEl.innerHTML = "app";
+    targetEl.textContent = "App";
   }
 }
 
