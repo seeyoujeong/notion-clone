@@ -1,4 +1,4 @@
-import { API_ENDPOINT_URL, API_HEADER_X_USERNAME } from "../constants";
+import { concatUrlPath } from "../utils";
 
 const fetchWrapper = async (url: string, options?: RequestInit) => {
   try {
@@ -12,21 +12,9 @@ const fetchWrapper = async (url: string, options?: RequestInit) => {
   }
 };
 
-const concatUrlPath = (url: string, path: string) => {
-  if (url[url.length - 1] !== "/") {
-    url += "/";
-  }
-
-  if (path[0] === "/") {
-    path = path.slice(1);
-  }
-
-  return `${url}${path}`;
-};
-
 type OptionBody = BodyInit | undefined | null;
 
-const createApiClient = (url: string, options?: RequestInit) => {
+export const createApiClient = (url: string, options?: RequestInit) => {
   return {
     get: async (path: string) => {
       return await fetchWrapper(concatUrlPath(url, path), {
@@ -55,10 +43,3 @@ const createApiClient = (url: string, options?: RequestInit) => {
     },
   };
 };
-
-export const apiClient = createApiClient(API_ENDPOINT_URL, {
-  headers: {
-    "Content-Type": "application/json",
-    "x-username": API_HEADER_X_USERNAME,
-  },
-});
