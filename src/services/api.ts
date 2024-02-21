@@ -38,6 +38,7 @@ export const createApiClient = (url: string, options?: RequestInit) => {
     },
     delete: async (path: string) => {
       return await fetchWrapper(concatUrlPath(url, path), {
+        ...options,
         method: "DELETE",
       });
     },
