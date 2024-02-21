@@ -12,7 +12,7 @@ const fetchWrapper = async (url: string, options?: RequestInit) => {
   }
 };
 
-type OptionBody = BodyInit | undefined | null;
+type OptionBody = Object | undefined | null;
 
 export const createApiClient = (url: string, options?: RequestInit) => {
   return {
