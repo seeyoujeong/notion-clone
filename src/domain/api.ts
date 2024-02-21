@@ -7,3 +7,9 @@ const apiClient = createApiClient(API_ENDPOINT_URL, {
     "x-username": API_HEADER_X_USERNAME,
   },
 });
+
+export const getAllDocuments = async () => {
+  const documents = await apiClient.get("documents");
+
+  return documents;
+};
