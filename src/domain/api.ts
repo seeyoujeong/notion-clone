@@ -39,3 +39,7 @@ interface EditedContent {
 export const putDocument = async (id: number, editedContent: EditedContent) => {
   await apiClient.put(`${DOCUMENTS}/${id}`, editedContent);
 };
+
+export const deleteDocument = async (id: number) => {
+  await apiClient.delete(`${DOCUMENTS}/${id}`);
+};
