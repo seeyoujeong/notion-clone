@@ -21,3 +21,12 @@ export const getDocumentContent = async (id: number) => {
 
   return content;
 };
+
+export const postDocument = async (
+  title: string,
+  parentId: number | null = null
+) => {
+  const content = await apiClient.post(DOCUMENTS, { title, parent: parentId });
+
+  return content;
+};
