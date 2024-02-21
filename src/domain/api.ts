@@ -8,8 +8,16 @@ const apiClient = createApiClient(API_ENDPOINT_URL, {
   },
 });
 
+const DOCUMENTS = "documents";
+
 export const getAllDocuments = async () => {
-  const documents = await apiClient.get("documents");
+  const documents = await apiClient.get(DOCUMENTS);
 
   return documents;
+};
+
+export const getDocumentContent = async (id: number) => {
+  const content = await apiClient.get(`${DOCUMENTS}/${id}`);
+
+  return content;
 };
