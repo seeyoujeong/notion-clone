@@ -1,5 +1,6 @@
 import { API_ENDPOINT_URL, API_HEADER_X_USERNAME } from "../constants";
 import { createApiClient } from "../services";
+import { joinWithSlash } from "../utils";
 
 const apiClient = createApiClient(API_ENDPOINT_URL, {
   headers: {
@@ -17,7 +18,7 @@ export const getAllDocuments = async () => {
 };
 
 export const getDocumentContent = async (id: number) => {
-  const content = await apiClient.get(`${DOCUMENTS}/${id}`);
+  const content = await apiClient.get(joinWithSlash(DOCUMENTS, id));
 
   return content;
 };
@@ -37,9 +38,9 @@ interface EditedContent {
 }
 
 export const putDocument = async (id: number, editedContent: EditedContent) => {
-  await apiClient.put(`${DOCUMENTS}/${id}`, editedContent);
+  await apiClient.put(joinWithSlash(DOCUMENTS, id), editedContent);
 };
 
 export const deleteDocument = async (id: number) => {
-  await apiClient.delete(`${DOCUMENTS}/${id}`);
+  await apiClient.delete(joinWithSlash(DOCUMENTS, id));
 };

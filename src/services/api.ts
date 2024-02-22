@@ -1,4 +1,4 @@
-import { concatUrlPath } from "../utils";
+import { joinWithSlash } from "../utils";
 
 const fetchWrapper = async (url: string, options?: RequestInit) => {
   try {
@@ -17,27 +17,27 @@ type OptionBody = Object | undefined | null;
 export const createApiClient = (url: string, options?: RequestInit) => {
   return {
     get: async (path: string) => {
-      return await fetchWrapper(concatUrlPath(url, path), {
+      return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "GET",
       });
     },
     post: async (path: string, body: OptionBody) => {
-      return await fetchWrapper(concatUrlPath(url, path), {
+      return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "POST",
         body: JSON.stringify(body),
       });
     },
     put: async (path: string, body: OptionBody) => {
-      return await fetchWrapper(concatUrlPath(url, path), {
+      return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "PUT",
         body: JSON.stringify(body),
       });
     },
     delete: async (path: string) => {
-      return await fetchWrapper(concatUrlPath(url, path), {
+      return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "DELETE",
       });
