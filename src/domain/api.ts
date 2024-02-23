@@ -1,5 +1,6 @@
 import { API_ENDPOINT_URL, API_HEADER_X_USERNAME } from "../constants";
 import { createApiClient } from "../services";
+import { DocumentContent, ResponsePostDocument, RootDocument } from "../types";
 import { joinWithSlash } from "../utils";
 
 const apiClient = createApiClient(API_ENDPOINT_URL, {
@@ -12,13 +13,15 @@ const apiClient = createApiClient(API_ENDPOINT_URL, {
 const DOCUMENTS = "documents";
 
 export const getAllDocuments = async () => {
-  const documents = await apiClient.get(DOCUMENTS);
+  const documents = await apiClient.get<RootDocument[]>(DOCUMENTS);
 
   return documents;
 };
 
 export const getDocumentContent = async (id: number) => {
-  const content = await apiClient.get(joinWithSlash(DOCUMENTS, id));
+  const content = await apiClient.get<DocumentContent>(
+    joinWithSlash(DOCUMENTS, id)
+  );
 
   return content;
 };
@@ -27,7 +30,10 @@ export const postDocument = async (
   title: string,
   parentId: number | null = null
 ) => {
-  const content = await apiClient.post(DOCUMENTS, { title, parent: parentId });
+  const content = await apiClient.post<ResponsePostDocument>(DOCUMENTS, {
+    title,
+    parent: parentId,
+  });
 
   return content;
 };

@@ -16,27 +16,27 @@ type OptionBody = Object | undefined | null;
 
 export const createApiClient = (url: string, options?: RequestInit) => {
   return {
-    get: async (path: string) => {
+    get: async <T>(path: string): Promise<T> => {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "GET",
       });
     },
-    post: async (path: string, body: OptionBody) => {
+    post: async <T>(path: string, body: OptionBody): Promise<T> => {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "POST",
         body: JSON.stringify(body),
       });
     },
-    put: async (path: string, body: OptionBody) => {
+    put: async <T>(path: string, body: OptionBody): Promise<T> => {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "PUT",
         body: JSON.stringify(body),
       });
     },
-    delete: async (path: string) => {
+    delete: async <T>(path: string): Promise<T> => {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "DELETE",
