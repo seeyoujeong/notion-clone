@@ -1,4 +1,4 @@
-import { joinWithSlash } from "../utils";
+import { joinWithSlash } from "@/utils";
 
 const fetchWrapper = async (url: string, options?: RequestInit) => {
   try {

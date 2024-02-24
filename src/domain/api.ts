@@ -1,7 +1,7 @@
-import { API_ENDPOINT_URL, API_HEADER_X_USERNAME } from "../constants";
-import { createApiClient } from "../services";
-import { DocumentContent, ResponsePostDocument, RootDocument } from "../types";
-import { joinWithSlash } from "../utils";
+import { API_ENDPOINT_URL, API_HEADER_X_USERNAME } from "@/constants";
+import { createApiClient } from "@/services";
+import { DocumentContent, ResponsePostDocument, RootDocument } from "@/types";
+import { joinWithSlash } from "@/utils";
 
 const apiClient = createApiClient(API_ENDPOINT_URL, {
   headers: {
