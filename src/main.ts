@@ -1,10 +1,9 @@
 import App from "./App";
-
-const parentEl = document.querySelector<HTMLDivElement>("#app")!;
+import { generateElement } from "./services";
 
 new App({
   elements: {
-    parent: parentEl,
-    target: document.createElement("main"),
+    parent: document.querySelector<HTMLDivElement>("#app")!,
+    target: generateElement("main"),
   },
 });
