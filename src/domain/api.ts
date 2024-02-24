@@ -38,12 +38,10 @@ export const postDocument = async (
   return content;
 };
 
-interface EditedContent {
-  title: string;
-  content: string;
-}
-
-export const putDocument = async (id: number, editedContent: EditedContent) => {
+export const putDocument = async (
+  id: number,
+  editedContent: Pick<DocumentContent, "title" | "content">
+) => {
   await apiClient.put(joinWithSlash(DOCUMENTS, id), editedContent);
 };
 
