@@ -1,5 +1,10 @@
 import App from "./App";
 
-const targetEl = document.querySelector<HTMLDivElement>("#app")!;
+const parentEl = document.querySelector<HTMLDivElement>("#app")!;
 
-new App({ targetEl });
+new App({
+  elements: {
+    parent: parentEl,
+    target: document.createElement("main"),
+  },
+});

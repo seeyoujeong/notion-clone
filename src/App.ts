@@ -1,10 +1,8 @@
-interface AppProps {
-  targetEl: HTMLDivElement;
-}
+import { Component } from "./core";
 
-class App {
-  constructor({ targetEl }: AppProps) {
-    targetEl.textContent = "App";
+class App extends Component {
+  template() {
+    return "App";
   }
 }
 
