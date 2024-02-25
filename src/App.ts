@@ -1,8 +1,13 @@
 import { Component } from "./core";
+import { Home } from "./pages";
 
 class App extends Component {
-  template() {
-    return "App";
+  template(): string {
+    return `<main></main>`;
+  }
+
+  mounted(): void {
+    new Home({ targetEl: document.querySelector("main")! });
   }
 }
 
