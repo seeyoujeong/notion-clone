@@ -1,6 +1,6 @@
 import { DocumentList } from "@/components";
 import { Component } from "@/core";
-import { getAllDocuments } from "@/domain";
+import { getAllDocuments, postDocument } from "@/domain";
 
 class Home extends Component {
   template(): string {
@@ -20,6 +20,13 @@ class Home extends Component {
           documents: [],
         },
       ],
+      props: {
+        addDocument: async (parentId: number | null) => {
+          await postDocument("새 제목", parentId);
+
+          documentList.setState(await getAllDocuments());
+        },
+      },
     });
 
     (async () => {

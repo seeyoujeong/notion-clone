@@ -1,7 +1,11 @@
 import { Component } from "@/core";
 import { RootDocument } from "@/types";
 
-class DocumentList extends Component<{}, RootDocument[]> {
+interface DocumentListProps {
+  addDocument: (parentId: number | null) => void;
+}
+
+class DocumentList extends Component<DocumentListProps, RootDocument[]> {
   template(): string {
     const createList = (content: RootDocument[]): string => {
       return `
@@ -10,7 +14,11 @@ class DocumentList extends Component<{}, RootDocument[]> {
             ?.map(
               ({ id, title, documents }) => `
               <li id="${id}">
-                ${title}
+                <span>
+                  <span>${title}</span>
+                  <button class="add">추가</button>
+                  <button>삭제</button>
+                </span>
                 ${documents.length > 0 ? createList(documents) : ""}
               </li>`
             )
@@ -24,6 +32,16 @@ class DocumentList extends Component<{}, RootDocument[]> {
         ${createList(this.state || [])}
       </nav>
     `;
+  }
+
+  setEvent(): void {
+    this.addEvent("click", (element) => {
+      const liEl = element.closest("li")!;
+
+      if (element.className === "add") {
+        this.props?.addDocument(Number(liEl.id));
+      }
+    });
   }
 }
 
