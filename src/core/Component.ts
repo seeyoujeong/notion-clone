@@ -1,10 +1,5 @@
-interface Elements {
-  parent: HTMLElement;
-  target: HTMLElement;
-}
-
 interface ComponentProps<Props = {}, State = {}> {
-  elements: Elements;
+  targetEl: HTMLElement;
   props?: Props;
   state?: State;
 }
@@ -14,10 +9,8 @@ class Component<Props = {}, State = {}> {
   protected props?: Props;
   protected state?: State;
 
-  constructor({ elements, props, state }: ComponentProps<Props, State>) {
-    this.targetEl = elements.target;
-    elements.parent.append(this.targetEl);
-
+  constructor({ targetEl, props, state }: ComponentProps<Props, State>) {
+    this.targetEl = targetEl;
     this.props = props;
     this.state = state;
 
@@ -28,8 +21,11 @@ class Component<Props = {}, State = {}> {
     return "";
   }
 
+  mounted() {}
+
   render() {
     this.targetEl.innerHTML = this.template();
+    this.mounted();
   }
 
   setState(nextState: State) {
