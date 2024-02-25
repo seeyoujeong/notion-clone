@@ -14,6 +14,7 @@ class Component<Props = {}, State = {}> {
     this.props = props;
     this.state = state;
 
+    this.setEvent();
     this.render();
   }
 
@@ -31,6 +32,17 @@ class Component<Props = {}, State = {}> {
   setState(nextState: State) {
     this.state = nextState;
     this.render();
+  }
+
+  setEvent() {}
+
+  addEvent(
+    type: keyof HTMLElementEventMap,
+    callback: (element: HTMLElement) => void
+  ) {
+    this.targetEl.addEventListener(type, (event) => {
+      callback(event.target as HTMLElement);
+    });
   }
 }
 
