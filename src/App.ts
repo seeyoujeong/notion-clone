@@ -1,5 +1,5 @@
 import { Component } from "./core";
-import { Home } from "./pages";
+import { notionRouter } from "./domain";
 
 class App extends Component {
   template(): string {
@@ -7,7 +7,9 @@ class App extends Component {
   }
 
   mounted(): void {
-    new Home({ targetEl: document.querySelector("main")! });
+    const targetEl = document.querySelector("main")!;
+
+    notionRouter(location.pathname, targetEl);
   }
 }
 
