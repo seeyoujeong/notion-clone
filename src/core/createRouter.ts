@@ -31,16 +31,24 @@ const isSamePath = (routePath: string, currentPath: string) => {
 };
 
 const createRouter = (routes: RouteObject[]) => {
-  return (currentPath: string, targetEl: HTMLElement) => {
-    const matchedRoute = routes.find(({ path }) =>
-      isSamePath(path, currentPath)
-    );
+  let targetEl: HTMLElement;
 
-    if (matchedRoute) {
-      new matchedRoute.page({ targetEl });
-    } else {
-      console.error("no matched route");
-    }
+  return {
+    init(element: HTMLElement) {
+      targetEl = element;
+      this.navigate(location.pathname);
+    },
+    navigate(currentPath: string) {
+      const matchedRoute = routes.find(({ path }) =>
+        isSamePath(path, currentPath)
+      );
+
+      if (matchedRoute) {
+        new matchedRoute.page({ targetEl });
+      } else {
+        console.error("no matched route");
+      }
+    },
   };
 };
 

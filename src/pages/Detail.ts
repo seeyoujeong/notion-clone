@@ -38,7 +38,7 @@ class Detail extends Component {
         },
         moveDetailPage: async (id: number) => {
           history.pushState({}, "", String(id));
-          notionRouter(location.pathname, this.targetEl);
+          notionRouter.navigate(location.pathname);
         },
       },
     });

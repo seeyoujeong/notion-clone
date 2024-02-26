@@ -7,9 +7,7 @@ class App extends Component {
   }
 
   mounted(): void {
-    const targetEl = document.querySelector("main")!;
-
-    notionRouter(location.pathname, targetEl);
+    notionRouter.init(document.querySelector("main")!);
   }
 }
 
