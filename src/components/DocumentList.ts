@@ -4,6 +4,7 @@ import { RootDocument } from "@/types";
 interface DocumentListProps {
   addDocument: (parentId: number | null) => void;
   deleteDocument: (id: number) => void;
+  moveDetailPage: (id: number) => void;
 }
 
 class DocumentList extends Component<DocumentListProps, RootDocument[]> {
@@ -45,6 +46,10 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
       if (element.className === "deleteBtn") {
         this.props?.deleteDocument(Number(liEl.id));
         return;
+      }
+
+      if (liEl) {
+        this.props?.moveDetailPage(Number(liEl.id));
       }
     });
   }

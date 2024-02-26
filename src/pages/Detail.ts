@@ -1,6 +1,11 @@
 import { DocumentEdit, DocumentList } from "@/components";
 import { Component } from "@/core";
-import { deleteDocument, getAllDocuments, postDocument } from "@/domain";
+import {
+  deleteDocument,
+  getAllDocuments,
+  notionRouter,
+  postDocument,
+} from "@/domain";
 
 class Detail extends Component {
   template(): string {
@@ -30,6 +35,10 @@ class Detail extends Component {
           await deleteDocument(id);
 
           documentList.setState(await getAllDocuments());
+        },
+        moveDetailPage: async (id: number) => {
+          history.pushState({}, "", String(id));
+          notionRouter(location.pathname, this.targetEl);
         },
       },
     });
