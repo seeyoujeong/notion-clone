@@ -1,10 +1,10 @@
-interface ComponentProps<Props = {}, State = {}> {
+interface ComponentProps<Props = any, State = any> {
   targetEl: HTMLElement;
   props?: Props;
   state?: State;
 }
 
-class Component<Props = {}, State = {}> {
+class Component<Props = any, State = any> {
   protected targetEl: HTMLElement;
   protected props?: Props;
   protected state?: State;
