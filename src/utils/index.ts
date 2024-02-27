@@ -1,1 +1,2 @@
-export * from "./joinWithSlash";
+export { default as joinWithSlash } from "./joinWithSlash";
+export { default as debounce } from "./debounce";
