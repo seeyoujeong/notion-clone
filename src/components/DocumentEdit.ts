@@ -1,5 +1,6 @@
 import { Component } from "@/core";
 import { notionRouter } from "@/domain";
+import { debounce } from "@/utils";
 
 interface DocumentEditProps {
   writeDocument: (id: number, title: string, content: string) => void;
@@ -14,6 +15,8 @@ class DocumentEdit extends Component<DocumentEditProps> {
   }
 
   setEvent(): void {
+    const writeDocumentWithDebounce = debounce(this.props?.writeDocument!, 300);
+
     this.addEvent("input", () => {
       const documentId = Number(notionRouter.getParams().id);
       const titleEl =
@@ -21,7 +24,7 @@ class DocumentEdit extends Component<DocumentEditProps> {
       const contentEl =
         this.targetEl.querySelector<HTMLTextAreaElement>("#content")!;
 
-      this.props?.writeDocument(documentId, titleEl.value, contentEl.value);
+      writeDocumentWithDebounce(documentId, titleEl.value, contentEl.value);
     });
   }
 }
