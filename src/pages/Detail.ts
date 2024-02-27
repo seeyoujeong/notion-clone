@@ -11,6 +11,8 @@ class Detail extends Component {
   }
 
   mounted(): void {
+    const documentId = Number(notionRouter.getParams().id);
+
     const documentList = new DocumentList({
       targetEl: document.querySelector("aside")!,
       props: {
@@ -23,6 +25,11 @@ class Detail extends Component {
           await notionApi.deleteDocument(id);
 
           documentList.setState(await notionApi.getAllDocuments());
+
+          if (documentId === id) {
+            history.replaceState({}, "", "/");
+            notionRouter.navigate(location.pathname);
+          }
         },
         moveDetailPage: async (id: number) => {
           history.pushState({}, "", String(id));
@@ -47,11 +54,15 @@ class Detail extends Component {
 
       documentList.setState(list);
 
-      const { title, content } = await notionApi.getDocumentContent(
-        Number(notionRouter.getParams().id)
-      );
+      try {
+        const { title, content } = await notionApi.getDocumentContent(
+          documentId
+        );
 
-      documentEdit.setState({ title, content });
+        documentEdit.setState({ title, content });
+      } catch (err) {
+        alert("없는 문서입니다.");
+      }
     })();
   }
 }
