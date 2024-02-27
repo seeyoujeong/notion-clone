@@ -3,8 +3,10 @@ import { Component } from "@/core";
 import {
   deleteDocument,
   getAllDocuments,
+  getDocumentContent,
   notionRouter,
   postDocument,
+  putDocument,
 } from "@/domain";
 
 class Detail extends Component {
@@ -36,14 +38,27 @@ class Detail extends Component {
       },
     });
 
-    new DocumentEdit({
+    const documentEdit = new DocumentEdit({
       targetEl: document.querySelector("section")!,
+      props: {
+        writeDocument: async (id, title, content) => {
+          await putDocument(id, { title, content });
+
+          documentList.setState(await getAllDocuments());
+        },
+      },
     });
 
     (async () => {
       const list = await getAllDocuments();
 
       documentList.setState(list);
+
+      const { title, content } = await getDocumentContent(
+        Number(notionRouter.getParams().id)
+      );
+
+      documentEdit.setState({ title, content });
     })();
   }
 }
