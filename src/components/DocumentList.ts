@@ -10,6 +10,7 @@ interface DocumentListProps {
 class DocumentList extends Component<DocumentListProps, RootDocument[]> {
   template(): string {
     return `
+      <button id="addRootBtn">새 문서 추가</button>
       <nav>
         ${(function createDocumentList(content: RootDocument[]): string {
           return `
@@ -36,6 +37,11 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
 
   setEvent(): void {
     this.addEvent("click", (element) => {
+      if (element.id === "addRootBtn") {
+        this.props?.addDocument(null);
+        return;
+      }
+
       const liEl = element.closest("li")!;
       const documentId = Number(liEl.id);
       const { addDocument, deleteDocument, moveDetailPage } = this.props!;
