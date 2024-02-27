@@ -5,6 +5,8 @@ interface RouteObject {
   page: typeof Component;
 }
 
+let params: Record<string, string> = {};
+
 const isSameSegments = (segments1: string[], segments2: string[]) => {
   if (segments1.length !== segments2.length) {
     return false;
@@ -14,6 +16,7 @@ const isSameSegments = (segments1: string[], segments2: string[]) => {
     if (seg === segments2[idx]) {
       return true;
     } else if (seg.startsWith(":")) {
+      params[seg.slice(1)] = segments2[idx];
       return true;
     } else {
       return false;
@@ -48,6 +51,9 @@ const createRouter = (routes: RouteObject[]) => {
       } else {
         console.error("no matched route");
       }
+    },
+    getParams() {
+      return params;
     },
   };
 };
