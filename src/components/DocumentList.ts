@@ -29,7 +29,7 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
                 .join("")}
               </ul>
             `;
-        })(this.state!)}
+        })(this.state || [])}
       </nav>
     `;
   }
