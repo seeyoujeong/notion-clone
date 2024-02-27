@@ -11,7 +11,7 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
   template(): string {
     return `
       <nav>
-        ${(function createList(content: RootDocument[]): string {
+        ${(function createDocumentList(content: RootDocument[]): string {
           return `
               <ul>
               ${content
@@ -23,7 +23,7 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
                       <button class="addBtn">추가</button>
                       <button class="deleteBtn">삭제</button>
                     </span>
-                    ${documents.length > 0 ? createList(documents) : ""}
+                    ${documents.length > 0 ? createDocumentList(documents) : ""}
                   </li>`
                 )
                 .join("")}
@@ -37,19 +37,21 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
   setEvent(): void {
     this.addEvent("click", (element) => {
       const liEl = element.closest("li")!;
+      const documentId = Number(liEl.id);
+      const { addDocument, deleteDocument, moveDetailPage } = this.props!;
 
       if (element.className === "addBtn") {
-        this.props?.addDocument(Number(liEl.id));
+        addDocument(documentId);
         return;
       }
 
       if (element.className === "deleteBtn") {
-        this.props?.deleteDocument(Number(liEl.id));
+        deleteDocument(documentId);
         return;
       }
 
       if (liEl) {
-        this.props?.moveDetailPage(Number(liEl.id));
+        moveDetailPage(documentId);
       }
     });
   }

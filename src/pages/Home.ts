@@ -1,11 +1,6 @@
 import { DocumentList } from "@/components";
 import { Component } from "@/core";
-import {
-  deleteDocument,
-  getAllDocuments,
-  notionRouter,
-  postDocument,
-} from "@/domain";
+import { notionApi, notionRouter } from "@/domain";
 
 class Home extends Component {
   template(): string {
@@ -20,14 +15,14 @@ class Home extends Component {
       targetEl: document.querySelector("aside")!,
       props: {
         addDocument: async (parentId: number | null) => {
-          await postDocument("새 제목", parentId);
+          await notionApi.postDocument("새 제목", parentId);
 
-          documentList.setState(await getAllDocuments());
+          documentList.setState(await notionApi.getAllDocuments());
         },
         deleteDocument: async (id: number) => {
-          await deleteDocument(id);
+          await notionApi.deleteDocument(id);
 
-          documentList.setState(await getAllDocuments());
+          documentList.setState(await notionApi.getAllDocuments());
         },
         moveDetailPage: async (id: number) => {
           history.pushState({}, "", String(id));
@@ -37,7 +32,7 @@ class Home extends Component {
     });
 
     (async () => {
-      const list = await getAllDocuments();
+      const list = await notionApi.getAllDocuments();
 
       documentList.setState(list);
     })();

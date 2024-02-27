@@ -1,13 +1,6 @@
 import { DocumentEdit, DocumentList } from "@/components";
 import { Component } from "@/core";
-import {
-  deleteDocument,
-  getAllDocuments,
-  getDocumentContent,
-  notionRouter,
-  postDocument,
-  putDocument,
-} from "@/domain";
+import { notionApi, notionRouter } from "@/domain";
 
 class Detail extends Component {
   template(): string {
@@ -22,14 +15,14 @@ class Detail extends Component {
       targetEl: document.querySelector("aside")!,
       props: {
         addDocument: async (parentId: number | null) => {
-          await postDocument("새 제목", parentId);
+          await notionApi.postDocument("새 제목", parentId);
 
-          documentList.setState(await getAllDocuments());
+          documentList.setState(await notionApi.getAllDocuments());
         },
         deleteDocument: async (id: number) => {
-          await deleteDocument(id);
+          await notionApi.deleteDocument(id);
 
-          documentList.setState(await getAllDocuments());
+          documentList.setState(await notionApi.getAllDocuments());
         },
         moveDetailPage: async (id: number) => {
           history.pushState({}, "", String(id));
@@ -42,19 +35,19 @@ class Detail extends Component {
       targetEl: document.querySelector("section")!,
       props: {
         writeDocument: async (id, title, content) => {
-          await putDocument(id, { title, content });
+          await notionApi.putDocument(id, { title, content });
 
-          documentList.setState(await getAllDocuments());
+          documentList.setState(await notionApi.getAllDocuments());
         },
       },
     });
 
     (async () => {
-      const list = await getAllDocuments();
+      const list = await notionApi.getAllDocuments();
 
       documentList.setState(list);
 
-      const { title, content } = await getDocumentContent(
+      const { title, content } = await notionApi.getDocumentContent(
         Number(notionRouter.getParams().id)
       );
 

@@ -14,29 +14,29 @@ const fetchWrapper = async (url: string, options?: RequestInit) => {
 
 type OptionBody = Object | undefined | null;
 
-export const createApiClient = (url: string, options?: RequestInit) => {
+const createApiClient = (url: string, options?: RequestInit) => {
   return {
-    get: async <T>(path: string): Promise<T> => {
+    async get<T>(path: string): Promise<T> {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "GET",
       });
     },
-    post: async <T>(path: string, body: OptionBody): Promise<T> => {
+    async post<T>(path: string, body: OptionBody): Promise<T> {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "POST",
         body: JSON.stringify(body),
       });
     },
-    put: async <T>(path: string, body: OptionBody): Promise<T> => {
+    async put<T>(path: string, body: OptionBody): Promise<T> {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "PUT",
         body: JSON.stringify(body),
       });
     },
-    delete: async <T>(path: string): Promise<T> => {
+    async delete<T>(path: string): Promise<T> {
       return await fetchWrapper(joinWithSlash(url, path), {
         ...options,
         method: "DELETE",
@@ -44,3 +44,5 @@ export const createApiClient = (url: string, options?: RequestInit) => {
     },
   };
 };
+
+export default createApiClient;
