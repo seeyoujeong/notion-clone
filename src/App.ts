@@ -27,7 +27,7 @@ class App extends Component {
       props: {
         addDocument: notionService.addDocument,
         deleteDocument: notionService.deleteDocument,
-        moveDetailPage: notionService.deleteDocument,
+        moveDetailPage: notionService.moveDetailPage,
       },
     });
 
