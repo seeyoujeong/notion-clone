@@ -1,6 +1,6 @@
 import { DocumentEdit } from "@/components";
 import { Component } from "@/core";
-import { notionApi, notionRouter } from "@/domain";
+import { documentListStore, notionApi, notionRouter } from "@/domain";
 
 class Detail extends Component {
   mounted(): void {
@@ -12,7 +12,7 @@ class Detail extends Component {
         writeDocument: async (id, title, content) => {
           await notionApi.putDocument(id, { title, content });
 
-          // documentList.setState(await notionApi.getAllDocuments());
+          documentListStore.setState(await notionApi.getAllDocuments());
         },
       },
     });

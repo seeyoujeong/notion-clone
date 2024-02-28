@@ -14,9 +14,12 @@ class Component<Props = any, State = any> {
     this.props = props;
     this.state = state;
 
+    this.init();
     this.setEvent();
     this.render();
   }
+
+  init() {}
 
   template() {
     return "";

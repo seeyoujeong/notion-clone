@@ -1,4 +1,5 @@
 import { Component } from "@/core";
+import { documentListStore } from "@/domain";
 import { RootDocument } from "@/types";
 
 interface DocumentListProps {
@@ -8,6 +9,10 @@ interface DocumentListProps {
 }
 
 class DocumentList extends Component<DocumentListProps, RootDocument[]> {
+  init(): void {
+    documentListStore.subscribe(() => this.render());
+  }
+
   template(): string {
     return `
       <button id="addRootBtn">새 문서 추가</button>
@@ -30,7 +35,7 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
                 .join("")}
               </ul>
             `;
-        })(this.state || [])}
+        })(documentListStore.getState())}
       </nav>
     `;
   }

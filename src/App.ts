@@ -1,6 +1,6 @@
 import { DocumentList } from "./components";
 import { Component } from "./core";
-import { notionApi, notionRouter } from "./domain";
+import { documentListStore, notionApi, notionRouter } from "./domain";
 import { browserHistory } from "./services";
 
 class App extends Component {
@@ -17,18 +17,18 @@ class App extends Component {
     notionRouter.init(document.querySelector("section")!);
     browserHistory.init(() => notionRouter.navigate(location.pathname));
 
-    const documentList = new DocumentList({
+    new DocumentList({
       targetEl: document.querySelector("aside")!,
       props: {
         addDocument: async (parentId: number | null) => {
           await notionApi.postDocument("새 제목", parentId);
 
-          documentList.setState(await notionApi.getAllDocuments());
+          documentListStore.setState(await notionApi.getAllDocuments());
         },
         deleteDocument: async (id: number) => {
           await notionApi.deleteDocument(id);
 
-          documentList.setState(await notionApi.getAllDocuments());
+          documentListStore.setState(await notionApi.getAllDocuments());
 
           if (Number(notionRouter.params.id) === id) {
             browserHistory.replace("/");
@@ -43,7 +43,7 @@ class App extends Component {
     (async () => {
       const list = await notionApi.getAllDocuments();
 
-      documentList.setState(list);
+      documentListStore.setState(list);
     })();
   }
 }
