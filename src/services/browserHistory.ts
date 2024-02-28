@@ -12,7 +12,7 @@ const browserHistory = {
     window.addEventListener("popstate", () => callback());
 
     window.addEventListener(
-      "history",
+      HISTORY_EVENT_NAME,
       (event: CustomEventInit<HistoryEventDetail>) => {
         const { nextUrl, option } = event.detail!;
 
