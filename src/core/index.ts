@@ -1,2 +1,2 @@
 export { default as Component } from "./Component";
-export { default as createRouter } from "./createRouter";
+export { default as Router } from "./Router";

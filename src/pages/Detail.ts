@@ -12,7 +12,7 @@ class Detail extends Component {
   }
 
   mounted(): void {
-    const documentId = Number(notionRouter.getParams().id);
+    const documentId = Number(notionRouter.params.id);
 
     const documentList = new DocumentList({
       targetEl: document.querySelector("aside")!,

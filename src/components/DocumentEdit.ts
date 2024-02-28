@@ -18,7 +18,7 @@ class DocumentEdit extends Component<DocumentEditProps> {
     const writeDocumentWithDebounce = debounce(this.props?.writeDocument!, 300);
 
     this.addEvent("input", () => {
-      const documentId = Number(notionRouter.getParams().id);
+      const documentId = Number(notionRouter.params.id);
       const titleEl =
         this.targetEl.querySelector<HTMLTextAreaElement>("#title")!;
       const contentEl =
