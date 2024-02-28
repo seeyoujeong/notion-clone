@@ -1,6 +1,7 @@
 import { DocumentEdit, DocumentList } from "@/components";
 import { Component } from "@/core";
 import { notionApi, notionRouter } from "@/domain";
+import { browserHistory } from "@/services";
 
 class Detail extends Component {
   template(): string {
@@ -27,13 +28,11 @@ class Detail extends Component {
           documentList.setState(await notionApi.getAllDocuments());
 
           if (documentId === id) {
-            history.replaceState({}, "", "/");
-            notionRouter.navigate(location.pathname);
+            browserHistory.replace("/");
           }
         },
         moveDetailPage: async (id: number) => {
-          history.pushState({}, "", String(id));
-          notionRouter.navigate(location.pathname);
+          browserHistory.push(String(id));
         },
       },
     });

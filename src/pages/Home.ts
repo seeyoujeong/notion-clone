@@ -1,6 +1,7 @@
 import { DocumentList } from "@/components";
 import { Component } from "@/core";
-import { notionApi, notionRouter } from "@/domain";
+import { notionApi } from "@/domain";
+import { browserHistory } from "@/services";
 
 class Home extends Component {
   template(): string {
@@ -25,8 +26,7 @@ class Home extends Component {
           documentList.setState(await notionApi.getAllDocuments());
         },
         moveDetailPage: async (id: number) => {
-          history.pushState({}, "", String(id));
-          notionRouter.navigate(location.pathname);
+          browserHistory.push(String(id));
         },
       },
     });
