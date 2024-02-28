@@ -1,6 +1,6 @@
 import { DocumentEdit } from "@/components";
 import { Component } from "@/core";
-import { documentListStore, notionApi, notionRouter } from "@/domain";
+import { notionApi, notionRouter, notionService } from "@/domain";
 
 class Detail extends Component {
   mounted(): void {
@@ -9,11 +9,7 @@ class Detail extends Component {
     const documentEdit = new DocumentEdit({
       targetEl: document.querySelector("section")!,
       props: {
-        writeDocument: async (id, title, content) => {
-          await notionApi.putDocument(id, { title, content });
-
-          documentListStore.setState(await notionApi.getAllDocuments());
-        },
+        writeDocument: notionService.updateDocument,
       },
     });
 
