@@ -16,7 +16,7 @@ const notionService = {
       browserHistory.replace("/");
     }
   },
-  async moveDetailPage(id: number) {
+  moveDetailPage(id: number) {
     browserHistory.push(String(id));
   },
   async updateDocument(id: number, title: string, content: string) {
