@@ -3,11 +3,16 @@ import { Component } from "@/core";
 import { notionApi, notionRouter, notionService } from "@/domain";
 
 class Detail extends Component {
+  template(): string {
+    return `
+      <div class="detail"></div>
+    `;
+  }
   mounted(): void {
     const documentId = Number(notionRouter.params.id);
 
     const documentEdit = new DocumentEdit({
-      targetEl: document.querySelector("section")!,
+      targetEl: document.querySelector(".detail")!,
       props: {
         writeDocument: notionService.updateDocument,
       },
