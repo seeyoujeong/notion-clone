@@ -1,7 +1,9 @@
+import { ArgsType } from "@/types";
+
 const debounce = (callback: (...args: any[]) => void, delay: number) => {
   let timeId: ReturnType<typeof setTimeout>;
 
-  return (...args: any[]) => {
+  return (...args: ArgsType<typeof callback>) => {
     if (timeId) {
       clearTimeout(timeId);
     }
