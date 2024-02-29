@@ -1,3 +1,5 @@
+import { ArrayItemType } from "@/types";
+
 class Store<State = any> {
   _state: State;
   _observers: (() => void)[] = [];
@@ -6,7 +8,7 @@ class Store<State = any> {
     this._state = state;
   }
 
-  subscribe(fn: () => void) {
+  subscribe(fn: ArrayItemType<typeof this._observers>) {
     this._observers.push(fn);
   }
 
