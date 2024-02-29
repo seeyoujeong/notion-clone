@@ -1,6 +1,7 @@
 import { DocumentEdit } from "@/components";
 import { Component } from "@/core";
 import { notionApi, notionRouter } from "@/domain";
+import { browserHistory } from "@/services";
 
 class Detail extends Component {
   template(): string {
@@ -25,6 +26,7 @@ class Detail extends Component {
         documentEdit.setState({ title, content });
       } catch (err) {
         alert("없는 문서입니다.");
+        browserHistory.replace("/");
       }
     })();
   }
