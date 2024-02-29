@@ -1,6 +1,6 @@
 import { DocumentEdit } from "@/components";
 import { Component } from "@/core";
-import { notionApi, notionRouter, notionService } from "@/domain";
+import { notionApi, notionRouter } from "@/domain";
 
 class Detail extends Component {
   template(): string {
@@ -14,9 +14,6 @@ class Detail extends Component {
 
     const documentEdit = new DocumentEdit({
       targetEl: document.querySelector(".detail")!,
-      props: {
-        writeDocument: notionService.updateDocument,
-      },
     });
 
     (async () => {

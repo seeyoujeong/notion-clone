@@ -1,11 +1,6 @@
 import { DocumentList } from "./components";
 import { Component } from "./core";
-import {
-  documentListStore,
-  notionApi,
-  notionRouter,
-  notionService,
-} from "./domain";
+import { documentListStore, notionApi, notionRouter } from "./domain";
 import { browserHistory } from "./services";
 
 class App extends Component {
@@ -22,14 +17,7 @@ class App extends Component {
     notionRouter.init(document.querySelector("section")!);
     browserHistory.init(() => notionRouter.navigate(location.pathname));
 
-    new DocumentList({
-      targetEl: document.querySelector("aside")!,
-      props: {
-        addDocument: notionService.addDocument,
-        deleteDocument: notionService.deleteDocument,
-        moveDetailPage: notionService.moveDetailPage,
-      },
-    });
+    new DocumentList({ targetEl: document.querySelector("aside")! });
 
     (async () => {
       const list = await notionApi.getAllDocuments();

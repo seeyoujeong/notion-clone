@@ -1,14 +1,8 @@
 import { Component } from "@/core";
-import { documentListStore, toggledStorage } from "@/domain";
+import { documentListStore, notionService, toggledStorage } from "@/domain";
 import { RootDocument } from "@/types";
 
-interface DocumentListProps {
-  addDocument: (parentId: number | null) => void;
-  deleteDocument: (id: number) => void;
-  moveDetailPage: (id: number) => void;
-}
-
-class DocumentList extends Component<DocumentListProps, RootDocument[]> {
+class DocumentList extends Component<{}, RootDocument[]> {
   init(): void {
     documentListStore.subscribe(() => this.render());
   }
@@ -50,40 +44,30 @@ class DocumentList extends Component<DocumentListProps, RootDocument[]> {
   setEvent(): void {
     this.addEvent("click", (element) => {
       if (element.id === "addRootBtn") {
-        this.props?.addDocument(null);
+        notionService.addDocument(null);
         return;
       }
 
       const liEl = element.closest("li")!;
       const documentId = Number(liEl.id);
-      const { addDocument, deleteDocument, moveDetailPage } = this.props!;
 
       if (element.className === "addBtn") {
-        toggledStorage.addId(documentId);
-        addDocument(documentId);
-
+        notionService.addDocument(documentId);
         return;
       }
 
       if (element.className === "deleteBtn") {
-        toggledStorage.deleteId(documentId);
-        deleteDocument(documentId);
+        notionService.deleteDocument(documentId);
         return;
       }
 
       if (element.className === "toggleBtn") {
-        if (toggledStorage.has(documentId)) {
-          toggledStorage.deleteId(documentId);
-        } else {
-          toggledStorage.addId(documentId);
-        }
-
-        this.render();
+        notionService.toggleDocument(documentId);
         return;
       }
 
       if (liEl) {
-        moveDetailPage(documentId);
+        notionService.moveDetailPage(documentId);
       }
     });
   }
