@@ -1,11 +1,13 @@
+const HISTORY_EVENT_NAME = "historyEvent";
+const OPTION = {
+  PUSH: "push",
+  REPLACE: "replace",
+} as const;
+
 interface HistoryEventDetail {
   nextUrl: string;
-  option: "push" | "replace";
+  option: (typeof OPTION)[keyof typeof OPTION];
 }
-
-const HISTORY_EVENT_NAME = "historyEvent";
-const PUSH = "push";
-const REPLACE = "replace";
 
 const browserHistory = {
   init(callback: () => void) {
@@ -17,12 +19,12 @@ const browserHistory = {
         const { nextUrl, option } = event.detail!;
 
         if (nextUrl) {
-          if (option === PUSH) {
+          if (option === OPTION.PUSH) {
             history.pushState(null, "", nextUrl);
             callback();
           }
 
-          if (option === REPLACE) {
+          if (option === OPTION.REPLACE) {
             history.replaceState(null, "", nextUrl);
             callback();
           }
@@ -35,7 +37,7 @@ const browserHistory = {
       new CustomEvent(HISTORY_EVENT_NAME, {
         detail: {
           nextUrl,
-          option: PUSH,
+          option: OPTION.PUSH,
         },
       })
     );
@@ -45,7 +47,7 @@ const browserHistory = {
       new CustomEvent(HISTORY_EVENT_NAME, {
         detail: {
           nextUrl,
-          option: REPLACE,
+          option: OPTION.REPLACE,
         },
       })
     );

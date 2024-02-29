@@ -10,7 +10,7 @@ class Router {
   protected _params: Record<string, string>;
   protected routes: RouteObject[];
 
-  constructor(routes: RouteObject[]) {
+  constructor(routes: Router["routes"]) {
     this.targetEl;
     this._params = {};
     this.routes = routes;

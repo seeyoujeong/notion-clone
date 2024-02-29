@@ -8,6 +8,7 @@ class Detail extends Component {
       <div class="detail"></div>
     `;
   }
+
   mounted(): void {
     const documentId = Number(notionRouter.params.id);
 
