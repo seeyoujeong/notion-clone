@@ -10,7 +10,7 @@ const storage = <V>({ _storage, key, defaultValue }: StorageProps<V>) => ({
   },
   getItem(): V {
     if (!_storage.getItem(key)) {
-      this.setItem(defaultValue);
+      _storage.setItem(key, JSON.stringify(defaultValue));
     }
 
     return JSON.parse(_storage.getItem(key)!);
