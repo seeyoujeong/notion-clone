@@ -1,6 +1,6 @@
 import { DocumentList } from "./components";
 import { Component } from "./core";
-import { documentListStore, notionApi, notionRouter } from "./domain";
+import { notionRouter, notionService } from "./domain";
 import { browserHistory } from "./services";
 
 class App extends Component {
@@ -19,11 +19,7 @@ class App extends Component {
 
     new DocumentList({ targetEl: document.querySelector("aside")! });
 
-    (async () => {
-      const list = await notionApi.getAllDocuments();
-
-      documentListStore.setState(list);
-    })();
+    notionService.getDocumentList();
   }
 }
 

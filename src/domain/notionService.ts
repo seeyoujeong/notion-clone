@@ -35,6 +35,9 @@ const notionService = {
 
     documentListStore.notify();
   },
+  async getDocumentList() {
+    documentListStore.setState(await notionApi.getAllDocuments());
+  },
 };
 
 export default notionService;
