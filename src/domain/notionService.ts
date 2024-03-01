@@ -1,5 +1,11 @@
 import { browserHistory } from "@/services";
-import { documentListStore, notionApi, notionRouter, toggledStorage } from ".";
+import {
+  documentEditStore,
+  documentListStore,
+  notionApi,
+  notionRouter,
+  toggledStorage,
+} from ".";
 
 const notionService = {
   async addDocument(parentId: number | null) {
@@ -37,6 +43,16 @@ const notionService = {
   },
   async getDocumentList() {
     documentListStore.setState(await notionApi.getAllDocuments());
+  },
+  async getDocumentContent(id: number) {
+    try {
+      const { title, content } = await notionApi.getDocumentContent(id);
+
+      documentEditStore.setState({ title, content });
+    } catch (err) {
+      alert("없는 문서입니다.");
+      browserHistory.replace("/");
+    }
   },
 };
 

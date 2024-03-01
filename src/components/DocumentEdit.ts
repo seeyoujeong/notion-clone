@@ -1,12 +1,18 @@
 import { Component } from "@/core";
-import { notionRouter, notionService } from "@/domain";
+import { documentEditStore, notionRouter, notionService } from "@/domain";
 import { debounce } from "@/utils";
 
 class DocumentEdit extends Component {
+  init(): void {
+    documentEditStore.subscribe(() => this.render());
+  }
+
   template(): string {
+    const { title, content } = documentEditStore.getState();
+
     return `
-      <textarea id="title">${this.state?.title || ""}</textarea>
-      <textarea id="content">${this.state?.content || ""}</textarea>
+      <textarea id="title">${title || ""}</textarea>
+      <textarea id="content">${content || ""}</textarea>
     `;
   }
 
