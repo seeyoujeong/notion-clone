@@ -9,7 +9,12 @@ class DocumentList extends Component<{}, RootDocument[]> {
 
   template(): string {
     return `
-      <button id="addRootBtn">새 문서 추가</button>
+      <button id="addRootBtn">
+        <span class="material-symbols-outlined">
+          add_circle
+        </span>
+        <span>새 페이지</span>
+      </button>
       <nav>
         ${(function createDocumentList(content: RootDocument[]): string {
           return `
@@ -18,12 +23,26 @@ class DocumentList extends Component<{}, RootDocument[]> {
                 ?.map(
                   ({ id, title, documents }) => `
                   <li id="${id}">
-                    <span>
-                      <button class="toggleBtn">ㅅ</button>
+                    <div>
+                      <button class="toggleBtn">
+                        <span class="material-symbols-outlined">
+                          chevron_right
+                        </span>
+                      </button>
                       <span>${title}</span>
-                      <button class="addBtn">추가</button>
-                      <button class="deleteBtn">삭제</button>
-                    </span>
+                    </div>
+                    <div>
+                      <button class="addBtn">
+                        <span class="material-symbols-outlined">
+                          add
+                        </span>
+                      </button>
+                      <button class="deleteBtn">
+                        <span class="material-symbols-outlined">
+                          delete
+                        </span>
+                      </button>
+                    </div>
                     ${
                       toggledStorage.has(id)
                         ? documents.length > 0
