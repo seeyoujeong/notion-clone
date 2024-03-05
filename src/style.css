@@ -1,0 +1,36 @@
+* {
+  box-sizing: border-box;
+  outline: none;
+  border: none;
+  background-color: transparent;
+}
+
+#app {
+  height: 100vh;
+}
+
+main {
+  display: flex;
+}
+
+aside {
+  width: 250px;
+  height: 100vh;
+  border-right: 1px solid rgb(240, 240, 238);
+  background-color: rgb(246, 246, 244);
+  color: rgb(114, 113, 109);
+}
+
+nav li {
+  display: flex;
+}
+
+li button {
+  width: 24px;
+  height: 24px;
+  color: rgb(114, 113, 109);
+}
+
+li button:hover {
+  background-color: rgb(218, 218, 216);
+}
