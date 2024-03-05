@@ -29,7 +29,9 @@ class DocumentList extends Component<{}, RootDocument[]> {
                           chevron_right
                         </span>
                       </button>
-                      <span>${title}</span>
+                      <div class="title">
+                        <span>${title}</span>
+                      </div>
                     </div>
                     <div>
                       <button class="addBtn">
@@ -62,32 +64,32 @@ class DocumentList extends Component<{}, RootDocument[]> {
 
   setEvent(): void {
     this.addEvent("click", (element) => {
-      if (element.id === "addRootBtn") {
+      const liEl = element.closest("li");
+      const documentId = Number(liEl?.id);
+      const buttonEl = element.closest("button");
+
+      if (buttonEl?.id === "addRootBtn") {
         notionService.addDocument(null);
         return;
       }
 
-      const liEl = element.closest("li")!;
-      const documentId = Number(liEl.id);
-
-      if (element.className === "addBtn") {
+      if (buttonEl?.className === "addBtn") {
         notionService.addDocument(documentId);
         return;
       }
 
-      if (element.className === "deleteBtn") {
+      if (buttonEl?.className === "deleteBtn") {
         notionService.deleteDocument(documentId);
         return;
       }
 
-      if (element.className === "toggleBtn") {
+      if (buttonEl?.className === "toggleBtn") {
         notionService.toggleDocument(documentId);
         return;
       }
 
-      if (liEl) {
+      if (element.closest("div")?.className === "title")
         notionService.moveDetailPage(documentId);
-      }
     });
   }
 }
