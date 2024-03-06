@@ -56,7 +56,7 @@ class DocumentList extends Component<{}, RootDocument[]> {
                       toggledStorage.has(id)
                         ? documents.length > 0
                           ? createDocumentList(documents)
-                          : "<ul><li>하위 페이지 없음</li></ul>" // TODO 개별 스타일 추가
+                          : '<div class="empty">하위 페이지 없음</div>'
                         : ""
                     }
                   </li>`

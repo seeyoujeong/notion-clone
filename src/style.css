@@ -1,3 +1,11 @@
+root {
+  --document-list-text: rgb(114, 113, 109);
+  --document-list-bg: rgb(246, 246, 244);
+  --document-item-hover: rgb(232, 232, 230);
+  --document-item-btn: rgb(114, 113, 109);
+  --document-item-btn-hover: rgb(218, 218, 216);
+}
+
 * {
   box-sizing: border-box;
   outline: none;
@@ -17,8 +25,8 @@ aside {
   width: 250px;
   height: 100vh;
   border-right: 1px solid rgb(240, 240, 238);
-  background-color: rgb(246, 246, 244);
-  color: rgb(114, 113, 109);
+  background-color: var(--document-list-bg);
+  color: var(--document-list-text);
 }
 
 .document-item {
@@ -31,13 +39,13 @@ aside {
 }
 
 .document-item:hover {
-  background-color: rgb(232, 232, 230);
+  background-color: var(--document-item-hover);
 }
 
 .document-item button {
   width: 24px;
   height: 24px;
-  color: rgb(114, 113, 109);
+  color: var(--document-item-btn);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -45,7 +53,7 @@ aside {
 }
 
 .document-item button:hover {
-  background-color: rgb(218, 218, 216);
+  background-color: var(--document-item-btn-hover);
 }
 
 .title-box {
