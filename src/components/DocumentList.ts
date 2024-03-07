@@ -16,15 +16,17 @@ class DocumentList extends Component<{}, RootDocument[]> {
         <span>새 페이지</span>
       </button>
       <nav>
-        ${(function createDocumentList(content: RootDocument[]): string {
-          // TODO depth 추가
+        ${(function createDocumentList(
+          content: RootDocument[],
+          depth: number
+        ): string {
           return `
               <ul>
               ${content
                 ?.map(
                   ({ id, title, documents }) => `
                   <li id="${id}">
-                    <div class="document-item">
+                    <div class="document-item" style="--depth: ${depth}">
                       <div class="title-box">
                         <button class="toggleBtn">
                           <span class="material-symbols-outlined">
@@ -55,8 +57,8 @@ class DocumentList extends Component<{}, RootDocument[]> {
                     ${
                       toggledStorage.has(id)
                         ? documents.length > 0
-                          ? createDocumentList(documents)
-                          : '<div class="empty">하위 페이지 없음</div>'
+                          ? createDocumentList(documents, depth + 1)
+                          : `<div class="empty" style="--depth: ${depth}">하위 페이지 없음</div>`
                         : ""
                     }
                   </li>`
@@ -64,7 +66,7 @@ class DocumentList extends Component<{}, RootDocument[]> {
                 .join("")}
               </ul>
             `;
-        })(documentListStore.getState())}
+        })(documentListStore.getState(), 0)}
       </nav>
     `;
   }
