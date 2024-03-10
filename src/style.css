@@ -30,6 +30,20 @@ aside {
   color: var(--document-list-text);
 }
 
+#homeBtn {
+  font-family: ui-sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 10px;
+  width: 100%;
+  text-align: start;
+  cursor: pointer;
+}
+
+#homeBtn:hover {
+  background-color: var(--document-item-hover);
+}
+
 .document-item {
   position: relative;
   display: flex;
@@ -91,6 +105,7 @@ aside {
   padding: 5px;
   width: 100%;
   font-size: 16px;
+  font-family: ui-sans-serif;
   color: var(--document-item-btn);
   cursor: pointer;
 }

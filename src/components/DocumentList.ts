@@ -1,5 +1,7 @@
+import { API_HEADER_X_USERNAME } from "@/constants";
 import { Component } from "@/core";
 import { documentListStore, notionService, toggledStorage } from "@/domain";
+import { browserHistory } from "@/services";
 import { RootDocument } from "@/types";
 
 class DocumentList extends Component<{}, RootDocument[]> {
@@ -9,6 +11,9 @@ class DocumentList extends Component<{}, RootDocument[]> {
 
   template(): string {
     return `
+      <button id="homeBtn">
+        ${API_HEADER_X_USERNAME}'s notion
+      </button>
       <button id="addRootBtn">
         <span class="material-symbols-outlined">
           add_circle
@@ -76,6 +81,11 @@ class DocumentList extends Component<{}, RootDocument[]> {
       const liEl = element.closest("li");
       const documentId = Number(liEl?.id);
       const buttonEl = element.closest("button");
+
+      if (buttonEl?.id === "homeBtn") {
+        browserHistory.push("/");
+        return;
+      }
 
       if (buttonEl?.id === "addRootBtn") {
         notionService.addDocument(null);
