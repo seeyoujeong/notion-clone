@@ -15,6 +15,7 @@
 
 #app {
   height: 100vh;
+  font-family: ui-sans-serif;
 }
 
 main {
@@ -33,7 +34,7 @@ aside {
   position: relative;
   display: flex;
   align-items: center;
-  height: 27px;
+  height: 32px;
   padding: 2px 10px 2px 5px;
   padding-left: calc(5px + var(--depth) * 20px);
   cursor: pointer;
@@ -80,4 +81,20 @@ aside {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+#addRootBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 32px;
+  padding: 5px;
+  width: 100%;
+  font-size: 16px;
+  color: var(--document-item-btn);
+  cursor: pointer;
+}
+
+#addRootBtn:hover {
+  background-color: var(--document-item-btn-hover);
 }
