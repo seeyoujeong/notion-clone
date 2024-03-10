@@ -104,11 +104,26 @@ section {
   flex-grow: 1;
 }
 
+.home,
 .detail {
   display: flex;
   flex-direction: column;
   flex-grow: 1;
   padding: 10%;
+}
+
+.home {
+  gap: 20px;
+}
+
+.home h1 {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+.home h2 {
+  font-size: 32px;
+  font-weight: 500;
 }
 
 .editor-content {
