@@ -1,2 +1,2 @@
 export { default as DocumentList } from "./DocumentList";
-export { default as DocumentEdit } from "./DocumentEdit";
+export { default as DocumentEditor } from "./DocumentEditor";

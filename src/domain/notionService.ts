@@ -1,6 +1,6 @@
 import { browserHistory } from "@/services";
 import {
-  documentEditStore,
+  documentEditorStore,
   documentListStore,
   notionApi,
   notionRouter,
@@ -48,7 +48,7 @@ const notionService = {
     try {
       const { title, content } = await notionApi.getDocumentContent(id);
 
-      documentEditStore.setState({ title, content });
+      documentEditorStore.setState({ title, content });
     } catch (err) {
       alert("없는 문서입니다.");
       browserHistory.replace("/");

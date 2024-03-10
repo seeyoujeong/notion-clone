@@ -1,14 +1,14 @@
 import { Component } from "@/core";
-import { documentEditStore, notionRouter, notionService } from "@/domain";
+import { documentEditorStore, notionRouter, notionService } from "@/domain";
 import { debounce } from "@/utils";
 
-class DocumentEdit extends Component {
+class DocumentEditor extends Component {
   init(): void {
-    documentEditStore.subscribe(() => this.render());
+    documentEditorStore.subscribe(() => this.render());
   }
 
   template(): string {
-    const { title, content } = documentEditStore.getState();
+    const { title, content } = documentEditorStore.getState();
 
     return `
       <textarea id="title">${title || ""}</textarea>
@@ -34,4 +34,4 @@ class DocumentEdit extends Component {
   }
 }
 
-export default DocumentEdit;
+export default DocumentEditor;

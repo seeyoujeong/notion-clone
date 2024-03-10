@@ -1,4 +1,4 @@
-import { DocumentEdit } from "@/components";
+import { DocumentEditor } from "@/components";
 import { Component } from "@/core";
 import { notionRouter, notionService } from "@/domain";
 
@@ -12,7 +12,7 @@ class Detail extends Component {
   mounted(): void {
     const documentId = Number(notionRouter.params.id);
 
-    new DocumentEdit({
+    new DocumentEditor({
       targetEl: document.querySelector(".detail")!,
     });
 
