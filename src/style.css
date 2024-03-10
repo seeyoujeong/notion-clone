@@ -23,7 +23,7 @@ main {
 }
 
 aside {
-  width: 250px;
+  min-width: 250px;
   height: 100vh;
   border-right: 1px solid rgb(240, 240, 238);
   background-color: var(--document-list-bg);
@@ -97,4 +97,37 @@ aside {
 
 #addRootBtn:hover {
   background-color: var(--document-item-btn-hover);
+}
+
+section {
+  display: flex;
+  flex-grow: 1;
+}
+
+.detail {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  padding: 10%;
+}
+
+.editor-content {
+  height: 100%;
+}
+
+#title,
+#content {
+  font-family: ui-sans-serif;
+  resize: none;
+  width: 100%;
+}
+
+#title {
+  font-size: 40px;
+  font-weight: 700;
+}
+
+#content {
+  font-size: 16px;
+  height: 100%;
 }

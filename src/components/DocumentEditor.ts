@@ -11,8 +11,12 @@ class DocumentEditor extends Component {
     const { title, content } = documentEditorStore.getState();
 
     return `
-      <textarea id="title">${title || ""}</textarea>
-      <textarea id="content">${content || ""}</textarea>
+      <div class="editor-title">
+        <textarea id="title">${title || ""}</textarea>
+      </div>
+      <div class="editor-content">
+        <textarea id="content">${content || ""}</textarea>
+      </div>
     `;
   }
 
