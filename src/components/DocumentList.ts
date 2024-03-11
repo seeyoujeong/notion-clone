@@ -1,7 +1,12 @@
 import { API_HEADER_X_USERNAME } from "@/constants";
 import { Component } from "@/core";
-import { documentListStore, notionService, toggledStorage } from "@/domain";
-import { browserHistory } from "@/services";
+import {
+  documentListStore,
+  notionRouter,
+  notionService,
+  toggledStorage,
+} from "@/domain";
+import { browserHistory, removeAllClassName } from "@/services";
 import { RootDocument } from "@/types";
 
 class DocumentList extends Component<{}, RootDocument[]> {
@@ -30,7 +35,9 @@ class DocumentList extends Component<{}, RootDocument[]> {
               ${content
                 ?.map(
                   ({ id, title, documents }) => `
-                  <li id="${id}">
+                  <li id="${id}" class="${
+                    notionRouter.params.id === String(id) ? "selected" : ""
+                  }">
                     <div class="document-item" style="--depth: ${depth}">
                       <div class="title-box">
                         <button class="toggleBtn">
@@ -86,6 +93,11 @@ class DocumentList extends Component<{}, RootDocument[]> {
 
       if (buttonEl?.id === "homeBtn") {
         browserHistory.push("/");
+        removeAllClassName({
+          parentNode: this.targetEl,
+          selector: "li",
+          className: "selected",
+        });
         return;
       }
 
@@ -109,8 +121,16 @@ class DocumentList extends Component<{}, RootDocument[]> {
         return;
       }
 
-      if (element.closest("div")?.className === "title")
+      if (element.closest("div")?.className === "title") {
         notionService.moveDetailPage(documentId);
+        removeAllClassName({
+          parentNode: this.targetEl,
+          selector: "li",
+          className: "selected",
+        });
+
+        liEl?.classList.add("selected");
+      }
     });
   }
 }

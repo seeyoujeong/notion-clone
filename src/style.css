@@ -2,6 +2,8 @@
   --document-list-text: rgb(114, 113, 109);
   --document-list-bg: rgb(246, 246, 244);
   --document-item-hover: rgb(232, 232, 230);
+  --document-item-selected-bg: rgb(232, 232, 230);
+  --document-item-selected-bg-hover: rgb(222, 222, 219);
   --document-item-btn: rgb(114, 113, 109);
   --document-item-btn-hover: rgb(218, 218, 216);
 }
@@ -56,6 +58,15 @@ aside {
 
 .document-item:hover {
   background-color: var(--document-item-hover);
+}
+
+li.selected {
+  color: black;
+  background-color: var(--document-item-selected-bg);
+}
+
+li.selected:hover {
+  background-color: var(--document-item-selected-bg-hover);
 }
 
 .document-item button {
