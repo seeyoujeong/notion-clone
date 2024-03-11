@@ -95,6 +95,9 @@ aside {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
 }
 
 #addRootBtn {
@@ -108,6 +111,10 @@ aside {
   font-family: ui-sans-serif;
   color: var(--document-item-btn);
   cursor: pointer;
+}
+
+#addRootBtn span:nth-last-child(1) {
+  margin-top: 2px;
 }
 
 #addRootBtn:hover {
