@@ -8,6 +8,7 @@ import {
 } from "@/domain";
 import { browserHistory, removeAllClassName } from "@/services";
 import { RootDocument } from "@/types";
+import profile from "@/assets/profile.png";
 
 class DocumentList extends Component<{}, RootDocument[]> {
   init(): void {
@@ -17,7 +18,8 @@ class DocumentList extends Component<{}, RootDocument[]> {
   template(): string {
     return `
       <button id="homeBtn">
-        ${API_HEADER_X_USERNAME}'s notion
+        <img class="profile-image" src="${profile}" alt="user profile image" />
+        <span>${API_HEADER_X_USERNAME}'s notion</span>
       </button>
       <button id="addRootBtn">
         <span class="material-symbols-outlined">
