@@ -148,6 +148,10 @@ section {
   font-weight: 500;
 }
 
+.detail {
+  gap: 20px;
+}
+
 .editor-content {
   height: 100%;
 }

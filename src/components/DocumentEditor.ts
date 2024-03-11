@@ -12,10 +12,12 @@ class DocumentEditor extends Component {
 
     return `
       <div class="editor-title">
-        <textarea id="title">${title || ""}</textarea>
+        <textarea id="title" placeholder="제목 없음">${title || ""}</textarea>
       </div>
       <div class="editor-content">
-        <textarea id="content">${content || ""}</textarea>
+        <textarea id="content" placeholder="내용을 입력하세요.">${
+          content || ""
+        }</textarea>
       </div>
     `;
   }

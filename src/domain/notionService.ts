@@ -9,7 +9,7 @@ import {
 
 const notionService = {
   async addDocument(parentId: number | null) {
-    await notionApi.postDocument("새 제목", parentId);
+    await notionApi.postDocument("", parentId);
     parentId && toggledStorage.addId(parentId);
 
     documentListStore.setState(await notionApi.getAllDocuments());

@@ -43,7 +43,9 @@ class DocumentList extends Component<{}, RootDocument[]> {
                           </span>
                         </button>
                         <div class="title">
-                          <span>${title}</span>
+                          <span>${
+                            title.trim().length > 0 ? title : "제목 없음"
+                          }</span>
                         </div>
                       </div>
                       <div class="button-box">
