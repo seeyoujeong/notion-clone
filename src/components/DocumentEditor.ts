@@ -1,5 +1,6 @@
 import { Component } from "@/core";
 import { documentEditorStore, notionRouter, notionService } from "@/domain";
+import { resizeTextarea } from "@/services";
 import { debounce } from "@/utils";
 
 class DocumentEditor extends Component {
@@ -22,6 +23,10 @@ class DocumentEditor extends Component {
     `;
   }
 
+  mounted(): void {
+    resizeTextarea("#title", "#content");
+  }
+
   setEvent(): void {
     const updateDocumentWithDebounce = debounce(
       notionService.updateDocument,
@@ -34,6 +39,8 @@ class DocumentEditor extends Component {
         this.targetEl.querySelector<HTMLTextAreaElement>("#title")!;
       const contentEl =
         this.targetEl.querySelector<HTMLTextAreaElement>("#content")!;
+
+      resizeTextarea("#title", "#content");
 
       updateDocumentWithDebounce(documentId, titleEl.value, contentEl.value);
     });
