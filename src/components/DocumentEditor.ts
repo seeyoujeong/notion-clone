@@ -13,7 +13,9 @@ class DocumentEditor extends Component {
 
     return `
       <div class="editor-title">
-        <textarea id="title" placeholder="제목 없음">${title || ""}</textarea>
+        <textarea id="title" placeholder="제목 없음" rows="1">${
+          title || ""
+        }</textarea>
       </div>
       <div class="editor-content">
         <textarea id="content" placeholder="내용을 입력하세요.">${
