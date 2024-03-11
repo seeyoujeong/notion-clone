@@ -17,16 +17,18 @@ class DocumentList extends Component<{}, RootDocument[]> {
 
   template(): string {
     return `
-      <button id="homeBtn">
-        <img class="profile-image" src="${profile}" alt="user profile image" />
-        <span>${API_HEADER_X_USERNAME}'s notion</span>
-      </button>
-      <button id="addRootBtn">
-        <span class="material-symbols-outlined">
-          add_circle
-        </span>
-        <span>새 페이지</span>
-      </button>
+      <header>
+        <button id="homeBtn">
+          <img class="profile-image" src="${profile}" alt="user profile image" />
+          <span>${API_HEADER_X_USERNAME}'s notion</span>
+        </button>
+        <button id="addRootBtn">
+          <span class="material-symbols-outlined">
+            add_circle
+          </span>
+          <span>새 페이지</span>
+        </button>
+      </header>
       <nav>
         ${(function createDocumentList(
           content: RootDocument[],
@@ -37,10 +39,10 @@ class DocumentList extends Component<{}, RootDocument[]> {
               ${content
                 ?.map(
                   ({ id, title, documents }) => `
-                  <li id="${id}" class="${
-                    notionRouter.params.id === String(id) ? "selected" : ""
-                  }">
-                    <div class="document-item" style="--depth: ${depth}">
+                  <li id="${id}">
+                    <div class="document-item ${
+                      notionRouter.params.id === String(id) ? "selected" : ""
+                    }" style="--depth: ${depth}">
                       <div class="title-box">
                         <button class="toggleBtn">
                           <span class="material-symbols-outlined">
@@ -97,7 +99,7 @@ class DocumentList extends Component<{}, RootDocument[]> {
         browserHistory.push("/");
         removeAllClassName({
           parentNode: this.targetEl,
-          selector: "li",
+          selector: ".document-item",
           className: "selected",
         });
         return;
@@ -127,11 +129,11 @@ class DocumentList extends Component<{}, RootDocument[]> {
         notionService.moveDetailPage(documentId);
         removeAllClassName({
           parentNode: this.targetEl,
-          selector: "li",
+          selector: ".document-item",
           className: "selected",
         });
 
-        liEl?.classList.add("selected");
+        liEl?.querySelector(".document-item")?.classList.add("selected");
       }
     });
   }
