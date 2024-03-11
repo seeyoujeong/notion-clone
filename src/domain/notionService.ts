@@ -9,8 +9,10 @@ import {
 
 const notionService = {
   async addDocument(parentId: number | null) {
-    await notionApi.postDocument("", parentId);
+    const { id } = await notionApi.postDocument("", parentId);
     parentId && toggledStorage.addId(parentId);
+
+    browserHistory.push(String(id));
 
     documentListStore.setState(await notionApi.getAllDocuments());
   },
