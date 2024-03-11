@@ -1,4 +1,4 @@
-import { DocumentList } from "./components";
+import { DocumentList, Header } from "./components";
 import { Component } from "./core";
 import { notionRouter, notionService } from "./domain";
 import { browserHistory } from "./services";
@@ -7,7 +7,10 @@ class App extends Component {
   template(): string {
     return `
       <main>
-        <aside></aside>
+        <aside>
+          <header></header>
+          <nav></nav>
+        </aside>
         <section></section>
       </main>
     `;
@@ -17,7 +20,8 @@ class App extends Component {
     notionRouter.init(document.querySelector("section")!);
     browserHistory.init(() => notionRouter.navigate(location.pathname));
 
-    new DocumentList({ targetEl: document.querySelector("aside")! });
+    new Header({ targetEl: document.querySelector("header")! });
+    new DocumentList({ targetEl: document.querySelector("nav")! });
 
     notionService.getDocumentList();
   }

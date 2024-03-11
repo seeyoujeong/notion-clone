@@ -1,4 +1,3 @@
-import { API_HEADER_X_USERNAME } from "@/constants";
 import { Component } from "@/core";
 import {
   documentListStore,
@@ -6,9 +5,8 @@ import {
   notionService,
   toggledStorage,
 } from "@/domain";
-import { browserHistory, removeAllClassName } from "@/services";
+import { removeAllClassName } from "@/services";
 import { RootDocument } from "@/types";
-import profile from "@/assets/profile.png";
 
 class DocumentList extends Component<{}, RootDocument[]> {
   init(): void {
@@ -17,19 +15,6 @@ class DocumentList extends Component<{}, RootDocument[]> {
 
   template(): string {
     return `
-      <header>
-        <button id="homeBtn">
-          <img class="profile-image" src="${profile}" alt="user profile image" />
-          <span>${API_HEADER_X_USERNAME}'s notion</span>
-        </button>
-        <button id="addRootBtn">
-          <span class="material-symbols-outlined">
-            add_circle
-          </span>
-          <span>새 페이지</span>
-        </button>
-      </header>
-      <nav>
         ${(function createDocumentList(
           content: RootDocument[],
           depth: number
@@ -85,7 +70,6 @@ class DocumentList extends Component<{}, RootDocument[]> {
               </ul>
             `;
         })(documentListStore.getState(), 0)}
-      </nav>
     `;
   }
 
@@ -94,21 +78,6 @@ class DocumentList extends Component<{}, RootDocument[]> {
       const liEl = element.closest("li");
       const documentId = Number(liEl?.id);
       const buttonEl = element.closest("button");
-
-      if (buttonEl?.id === "homeBtn") {
-        browserHistory.push("/");
-        removeAllClassName({
-          parentNode: this.targetEl,
-          selector: ".document-item",
-          className: "selected",
-        });
-        return;
-      }
-
-      if (buttonEl?.id === "addRootBtn") {
-        notionService.addDocument(null);
-        return;
-      }
 
       if (buttonEl?.className === "addBtn") {
         notionService.addDocument(documentId);
