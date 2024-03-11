@@ -1,7 +1,11 @@
 ## 프로젝트 설명
 
-바닐라 타입스크립트로 구현한 노션 클로닝 프로젝트입니다.
+바닐라 타입스크립트로 구현한 노션 클로닝 프로젝트입니다. <a href="https://notion-clone-two-delta.vercel.app/">🔗 배포 링크</a>
 
+<kbd>
+  <img height="500px" src="https://github.com/seeyoujeong/notion-clone/assets/40534414/f8f0947f-987d-42a8-8a6a-56d491b08f05" />
+</kbd>
+  
 주요 기능은 아래와 같습니다.
 
 - 문서를 최상위 혹은 특정 문서의 하위에 생성합니다.
@@ -9,6 +13,10 @@
   - 문서의 제목 및 내용을 수정하면 자동으로 저장됩니다.
 
 ## 구조도
+
+<kbd>
+  <img height="400px" src="https://github.com/seeyoujeong/notion-clone/assets/40534414/83dce91c-1302-4dbc-b915-d7d32b5b5edd" />
+</kbd>
 
 각 페이지/컴포넌트의 역할은 아래와 같습니다.
 
