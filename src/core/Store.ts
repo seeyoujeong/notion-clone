@@ -1,28 +1,28 @@
 import { ArrayItemType } from "@/types";
 
 class Store<State = any> {
-  _state: State;
-  _observers: (() => void)[] = [];
+  private state: State;
+  private observers: (() => void)[] = [];
 
-  constructor(state: any) {
-    this._state = state;
+  constructor(state: State) {
+    this.state = state;
   }
 
-  subscribe(fn: ArrayItemType<typeof this._observers>) {
-    this._observers.push(fn);
+  subscribe(fn: ArrayItemType<typeof this.observers>) {
+    this.observers.push(fn);
   }
 
   getState() {
-    return this._state;
+    return this.state;
   }
 
   setState(nextState: State) {
-    this._state = nextState;
+    this.state = nextState;
     this.notify();
   }
 
-  notify() {
-    this._observers.forEach((fn) => fn());
+  private notify() {
+    this.observers.forEach((fn) => fn());
   }
 }
 
