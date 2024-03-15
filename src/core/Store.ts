@@ -21,7 +21,7 @@ class Store<State = any> {
     this.notify();
   }
 
-  private notify() {
+  notify() {
     this.observers.forEach((fn) => fn());
   }
 }
