@@ -1,14 +1,9 @@
 import { Component } from "@/core";
-import {
-  documentListStore,
-  notionRouter,
-  notionService,
-  toggledStorage,
-} from "@/domain";
+import { documentListStore, notionRouter, notionService } from "@/domain";
 import { removeAllClassName } from "@/services";
-import { RootDocument } from "@/types";
+import { DocumentListContent } from "@/types";
 
-class DocumentList extends Component<{}, RootDocument[]> {
+class DocumentList extends Component<{}, DocumentListContent[]> {
   init(): void {
     documentListStore.subscribe(() => this.render());
   }
@@ -16,14 +11,14 @@ class DocumentList extends Component<{}, RootDocument[]> {
   template(): string {
     return `
         ${(function createDocumentList(
-          content: RootDocument[],
+          content: DocumentListContent[],
           depth: number
         ): string {
           return `
               <ul>
               ${content
                 ?.map(
-                  ({ id, title, documents }) => `
+                  ({ id, title, isToggled, documents }) => `
                   <li id="${id}">
                     <div class="document-item ${
                       notionRouter.params.id === String(id) ? "selected" : ""
@@ -31,11 +26,7 @@ class DocumentList extends Component<{}, RootDocument[]> {
                       <div class="title-box">
                         <button class="toggleBtn">
                           <span class="material-symbols-outlined">
-                            ${
-                              toggledStorage.has(id)
-                                ? "expand_more"
-                                : "chevron_right"
-                            }
+                            ${isToggled ? "expand_more" : "chevron_right"}
                           </span>
                         </button>
                         <div class="title">
@@ -58,7 +49,7 @@ class DocumentList extends Component<{}, RootDocument[]> {
                       </div>
                     </div>
                     ${
-                      toggledStorage.has(id)
+                      isToggled
                         ? documents.length > 0
                           ? createDocumentList(documents, depth + 1)
                           : `<div class="empty" style="--depth: ${depth}">하위 페이지 없음</div>`

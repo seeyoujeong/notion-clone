@@ -1,7 +1,8 @@
 import { API_ENDPOINT_URL, API_HEADER_X_USERNAME } from "@/constants";
 import { createApiClient } from "@/services";
 import { DocumentContent, ResponsePostDocument, RootDocument } from "@/types";
-import { joinWithSlash } from "@/utils";
+import { addIsToggledToDocuments, joinWithSlash } from "@/utils";
+import { toggledStorage } from ".";
 
 const notionApiClient = createApiClient(API_ENDPOINT_URL, {
   headers: {
@@ -17,8 +18,12 @@ const DOCUMENTS = "documents";
 const notionApi = {
   async getAllDocuments() {
     const documents = await notionApiClient.get<RootDocument[]>(DOCUMENTS);
+    const convertedDocuments = addIsToggledToDocuments(
+      documents,
+      toggledStorage.getIdList()
+    );
 
-    return documents;
+    return convertedDocuments;
   },
   async getDocumentContent(id: number) {
     const content = await notionApiClient.get<DocumentContent>(

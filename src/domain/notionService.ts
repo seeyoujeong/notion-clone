@@ -6,6 +6,7 @@ import {
   notionRouter,
   toggledStorage,
 } from ".";
+import { addIsToggledToDocuments } from "@/utils";
 
 const notionService = {
   async addDocument(parentId: number | null) {
@@ -41,7 +42,12 @@ const notionService = {
       toggledStorage.addId(id);
     }
 
-    documentListStore.notify();
+    const convertedDocuments = addIsToggledToDocuments(
+      documentListStore.getState(),
+      toggledStorage.getIdList()
+    );
+
+    documentListStore.setState(convertedDocuments);
   },
   async getDocumentList() {
     documentListStore.setState(await notionApi.getAllDocuments());

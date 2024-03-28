@@ -1,6 +1,6 @@
 import { Store } from "@/core";
-import { RootDocument } from "@/types";
+import { DocumentListContent } from "@/types";
 
-export const documentListStore = new Store<RootDocument[]>([]);
+export const documentListStore = new Store<DocumentListContent[]>([]);
 
 export const documentEditorStore = new Store<any>({ title: "", content: "" });
