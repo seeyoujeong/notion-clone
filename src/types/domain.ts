@@ -17,4 +17,9 @@ export interface RootDocument extends DefaultContent {
   documents: RootDocument[];
 }
 
+export interface DocumentListContent extends DefaultContent {
+  isToggled: boolean;
+  documents: DocumentListContent[];
+}
+
 export interface ResponsePostDocument extends DefaultContent, DateContent {}
