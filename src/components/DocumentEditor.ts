@@ -18,9 +18,7 @@ class DocumentEditor extends Component {
         }</textarea>
       </div>
       <div class="editor-content">
-        <textarea id="content" placeholder="내용을 입력하세요.">${
-          content || ""
-        }</textarea>
+        <div id="content" contenteditable="true">${content || ""}</div>
       </div>
     `;
   }
@@ -40,11 +38,15 @@ class DocumentEditor extends Component {
       const titleEl =
         this.targetEl.querySelector<HTMLTextAreaElement>("#title")!;
       const contentEl =
-        this.targetEl.querySelector<HTMLTextAreaElement>("#content")!;
+        this.targetEl.querySelector<HTMLDivElement>("#content")!;
 
       resizeTextarea("#title", "#content");
 
-      updateDocumentWithDebounce(documentId, titleEl.value, contentEl.value);
+      updateDocumentWithDebounce(
+        documentId,
+        titleEl.value,
+        contentEl.innerHTML
+      );
     });
   }
 }
