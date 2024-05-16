@@ -27,7 +27,7 @@ class Header extends Component {
       if (buttonEl?.id === "homeBtn") {
         browserHistory.push("/");
         removeAllClassName({
-          parentNode: this.targetEl,
+          parentNode: document.querySelector("nav")!,
           selector: ".document-item",
           className: "selected",
         });
