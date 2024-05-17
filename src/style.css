@@ -28,6 +28,8 @@ main {
 aside {
   min-width: 250px;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
   border-right: 1px solid rgb(240, 240, 238);
   background-color: var(--document-list-bg);
   color: var(--document-list-text);
@@ -79,6 +81,11 @@ header {
 
 #addRootBtn:hover {
   background-color: var(--document-item-hover);
+}
+
+nav {
+  flex-grow: 1;
+  overflow-y: auto;
 }
 
 .document-item {
@@ -153,6 +160,8 @@ header {
 }
 
 section {
+  height: 100vh;
+  overflow-y: auto;
   display: flex;
   flex-grow: 1;
 }
