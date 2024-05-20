@@ -1,4 +1,13 @@
-import { createHTMLElement } from "@/services";
+import { createHTMLElement, removeAllClassName } from "@/services";
+
+export const addCurrentClassName = (targetEl: HTMLElement) => {
+  removeAllClassName({
+    parentNode: document.querySelector("#content")!,
+    selector: ".block",
+    className: "current",
+  });
+  targetEl.classList.add("current");
+};
 
 export const createBlockElement = (
   tag: keyof HTMLElementTagNameMap = "div"
@@ -7,6 +16,8 @@ export const createBlockElement = (
     placeholder: "내용을 입력하세요.",
   });
   element.className = "block";
+  element.style.minHeight = "1em";
+  addCurrentClassName(element);
 
   return element;
 };
@@ -47,18 +58,32 @@ const createElementWithCommand = (command: TagInfoKeys) => {
   return element;
 };
 
-export const handleCommand = () => {
+export const isCommand = (text: string): text is TagInfoKeys => {
+  return Object.keys(tagInfo).includes(text);
+};
+
+export const replaceElementWithPosition = (
+  parentEl: HTMLElement,
+  targetEl: HTMLElement
+) => {
   const selection = getSelection();
-  const node = selection?.focusNode;
 
-  if (node) {
-    for (const command of Object.keys(tagInfo)) {
-      if (node.textContent === command) {
-        const element = createElementWithCommand(command as TagInfoKeys);
+  parentEl.replaceWith(targetEl);
+  selection?.setPosition(targetEl, 0);
+};
 
-        node.parentElement?.replaceWith(element);
-        selection.setPosition(element, 0);
-      }
+export const handleCommand = () => {
+  const node = getSelection()?.focusNode;
+  const parentElement = node?.parentElement;
+
+  if (node && parentElement?.classList.contains("block")) {
+    const text = node.textContent;
+
+    if (text && isCommand(text)) {
+      const element = createElementWithCommand(text);
+      addCurrentClassName(element);
+
+      replaceElementWithPosition(parentElement, element);
     }
   }
 };

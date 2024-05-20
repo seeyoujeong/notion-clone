@@ -203,10 +203,13 @@ section {
 }
 
 #content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   font-size: 16px;
 }
 
-.block:empty::after {
+.block.current:empty::after {
   content: attr(placeholder);
   opacity: 0.2;
 }
