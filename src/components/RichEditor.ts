@@ -52,6 +52,12 @@ class RichEditor extends Component {
     this.targetEl.addEventListener("keydown", (e) => {
       const node = getSelection()?.focusNode;
       const text = node?.textContent;
+      const contentEl = document.querySelector("#content")!;
+
+      if (!contentEl.innerHTML) {
+        const blockEl = createBlockElement();
+        contentEl.append(blockEl);
+      }
 
       if (text && isCommand(text) && e.key === " ") {
         handleCommand();
