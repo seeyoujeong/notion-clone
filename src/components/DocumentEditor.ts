@@ -2,6 +2,7 @@ import { Component } from "@/core";
 import { documentEditorStore, notionRouter, notionService } from "@/domain";
 import { resizeTextarea } from "@/services";
 import { debounce } from "@/utils";
+import RichEditor from "./RichEditor";
 
 class DocumentEditor extends Component {
   init(): void {
@@ -9,7 +10,7 @@ class DocumentEditor extends Component {
   }
 
   template(): string {
-    const { title, content } = documentEditorStore.getState();
+    const { title } = documentEditorStore.getState();
 
     return `
       <div class="editor-title">
@@ -17,14 +18,19 @@ class DocumentEditor extends Component {
           title || ""
         }</textarea>
       </div>
-      <div class="editor-content">
-        <div id="content" contenteditable="true">${content || ""}</div>
-      </div>
+      <div class="editor-content"></div>
     `;
   }
 
   mounted(): void {
-    resizeTextarea("#title", "#content");
+    resizeTextarea("#title");
+
+    const { content } = documentEditorStore.getState();
+
+    new RichEditor({
+      targetEl: document.querySelector(".editor-content")!,
+      state: content || "",
+    });
   }
 
   setEvent(): void {
@@ -40,7 +46,7 @@ class DocumentEditor extends Component {
       const contentEl =
         this.targetEl.querySelector<HTMLDivElement>("#content")!;
 
-      resizeTextarea("#title", "#content");
+      resizeTextarea("#title");
 
       updateDocumentWithDebounce(
         documentId,

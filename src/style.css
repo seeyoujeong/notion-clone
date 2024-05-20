@@ -198,6 +198,15 @@ section {
   font-weight: 700;
 }
 
+#title::placeholder {
+  opacity: 0.4;
+}
+
 #content {
   font-size: 16px;
+}
+
+.block:empty::after {
+  content: attr(placeholder);
+  opacity: 0.2;
 }
