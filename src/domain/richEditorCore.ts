@@ -16,6 +16,7 @@ export const createBlockElement = (
     placeholder: "내용을 입력하세요.",
   });
   element.className = "block";
+  element.style.padding = "3px 2px";
   element.style.minHeight = "1em";
   addCurrentClassName(element);
 
@@ -49,11 +50,9 @@ const createElementWithCommand = (command: TagInfoKeys) => {
   element.setAttribute("placeholder", placeholder);
 
   element.style.fontSize = fontSize;
-  element.style.padding = "3px 2px";
   element.style.margin = "0";
   element.style.fontWeight = "600";
   element.style.lineHeight = "1.3";
-  element.style.minHeight = "1em";
 
   return element;
 };
