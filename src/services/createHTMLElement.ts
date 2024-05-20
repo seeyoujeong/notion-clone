@@ -1,4 +1,4 @@
-export const generateElement = (
+const createHTMLElement = (
   tagName: keyof HTMLElementTagNameMap,
   attributes: Record<string, string> = {}
 ) => {
@@ -10,3 +10,5 @@ export const generateElement = (
 
   return element;
 };
+
+export default createHTMLElement;
