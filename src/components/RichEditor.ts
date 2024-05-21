@@ -13,8 +13,9 @@ class RichEditor extends Component {
   }
 
   mounted(): void {
-    if (this.state.length === 0) {
-      const contentEl = document.querySelector("#content")!;
+    const contentEl = document.querySelector("#content")!;
+
+    if (!contentEl.innerHTML) {
       const blockEl = createBlockElement();
       contentEl.append(blockEl);
     }
@@ -22,30 +23,44 @@ class RichEditor extends Component {
 
   setEvent(): void {
     this.targetEl.addEventListener("mouseup", () => {
-      const node = getSelection()?.focusNode;
+      const selection = getSelection();
+      if (!selection) return;
 
-      if (node && node.nodeType !== Node.TEXT_NODE) {
+      const node = selection.focusNode;
+      if (!node) return;
+
+      if (node.nodeType === Node.ELEMENT_NODE) {
         const currentEl = node as HTMLElement;
 
         addCurrentClassName(currentEl);
       }
+
+      if (node.nodeType === Node.TEXT_NODE) {
+        const parentEl = node.parentElement;
+
+        parentEl && addCurrentClassName(parentEl);
+      }
     });
 
     this.targetEl.addEventListener("keyup", (e) => {
-      const node = getSelection()?.focusNode;
+      const selection = getSelection();
+      if (!selection) return;
 
-      if (node) {
-        const currentEl = node as HTMLElement;
-
-        if (currentEl.innerHTML === "<br>") currentEl.innerHTML = "";
-      }
+      const node = selection.focusNode;
+      if (!node) return;
 
       if (e.key === "Backspace") {
-        const currentEl = node as HTMLElement;
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const currentEl = node as HTMLElement;
 
-        if (currentEl.innerHTML) {
           currentEl.innerHTML = "";
           addCurrentClassName(currentEl);
+        }
+
+        if (node.nodeType === Node.TEXT_NODE) {
+          const parentEl = node.parentElement;
+
+          parentEl && addCurrentClassName(parentEl);
         }
 
         const contentEl = document.querySelector("#content")!;
@@ -53,14 +68,19 @@ class RichEditor extends Component {
         if (!contentEl.innerHTML) {
           const blockEl = createBlockElement();
           contentEl.append(blockEl);
-          getSelection()?.setPosition(blockEl);
+          selection.setPosition(blockEl);
         }
       }
     });
 
     this.targetEl.addEventListener("keydown", (e) => {
-      const node = getSelection()?.focusNode;
-      const text = node?.textContent;
+      const selection = getSelection();
+      if (!selection) return;
+
+      const node = selection.focusNode;
+      if (!node) return;
+
+      const text = node.textContent;
 
       if (text && isCommand(text) && e.key === " ") {
         handleCommand();
@@ -68,14 +88,19 @@ class RichEditor extends Component {
         e.preventDefault();
       }
 
-      if (node && e.key === "Enter") {
+      if (e.key === "Enter") {
         const blockEl = createBlockElement();
-        const currentEl = node as HTMLElement;
 
-        if (currentEl.nodeType === Node.ELEMENT_NODE) {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const currentEl = node as HTMLElement;
+
           if (currentEl.innerHTML) {
             blockEl.innerHTML = currentEl.innerHTML;
             currentEl.innerHTML = "";
+          }
+
+          if (blockEl.innerHTML === "<br>") {
+            blockEl.innerHTML = "";
           }
 
           currentEl.insertAdjacentElement("afterend", blockEl);
@@ -83,44 +108,62 @@ class RichEditor extends Component {
           e.preventDefault();
         }
 
-        if (currentEl.nodeType === Node.TEXT_NODE) {
-          const range = getSelection()?.getRangeAt(0);
+        if (node.nodeType === Node.TEXT_NODE) {
+          const range = selection.getRangeAt(0);
 
-          range?.deleteContents();
-          range?.insertNode(createHTMLElement("span", { id: "temp" }));
+          range.deleteContents();
+          range.insertNode(createHTMLElement("span", { id: "temp" }));
 
-          const pEl = currentEl.parentElement!;
+          const parentEl = node.parentElement;
+          if (!parentEl) return;
 
-          const [b, a] = pEl.innerHTML.split('<span id="temp"></span>');
-
-          pEl.innerHTML = b;
-
-          blockEl.innerHTML = a;
-
-          pEl.insertAdjacentElement("afterend", blockEl);
+          const [beforeText, afterText] = parentEl.innerHTML.split(
+            '<span id="temp"></span>'
+          );
+          parentEl.innerHTML = beforeText;
+          blockEl.innerHTML = afterText;
+          parentEl.insertAdjacentElement("afterend", blockEl);
 
           e.preventDefault();
         }
 
-        getSelection()?.setPosition(blockEl);
+        selection.setPosition(blockEl);
       }
 
-      if (node && e.key === "ArrowUp") {
-        const currentEl = node as HTMLElement;
-        const previousEl = currentEl.previousElementSibling as HTMLElement;
+      if (e.key === "ArrowUp") {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const currentEl = node as HTMLElement;
+          const previousEl = currentEl.previousElementSibling as HTMLElement;
+          if (!previousEl) return;
 
-        if (previousEl) {
           if (previousEl.innerHTML === "<br>") previousEl.innerHTML = "";
           addCurrentClassName(previousEl);
+        }
+
+        if (node.nodeType === Node.TEXT_NODE) {
+          const parentEl = node.parentElement;
+          if (!parentEl) return;
+
+          const previousEl = parentEl.previousElementSibling as HTMLElement;
+          previousEl && addCurrentClassName(previousEl);
         }
       }
 
       if (node && e.key === "ArrowDown") {
-        const currentEl = node as HTMLElement;
-        const nextEl = currentEl.nextElementSibling as HTMLElement;
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const currentEl = node as HTMLElement;
+          const nextEl = currentEl.nextElementSibling as HTMLElement;
+          if (!nextEl) return;
 
-        if (nextEl) {
           addCurrentClassName(nextEl);
+        }
+
+        if (node.nodeType === Node.TEXT_NODE) {
+          const parentEl = node.parentElement;
+          if (!parentEl) return;
+
+          const nextEl = parentEl.nextElementSibling as HTMLElement;
+          nextEl && addCurrentClassName(nextEl);
         }
       }
     });
