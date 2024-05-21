@@ -1,5 +1,10 @@
 import { Component } from "@/core";
-import { documentEditorStore, notionRouter, notionService } from "@/domain";
+import {
+  documentEditorStore,
+  notionRouter,
+  notionService,
+  removeAllCurrentClassName,
+} from "@/domain";
 import { resizeTextarea } from "@/services";
 import { debounce } from "@/utils";
 import RichEditor from "./RichEditor";
@@ -38,6 +43,12 @@ class DocumentEditor extends Component {
       notionService.updateDocument,
       300
     );
+
+    this.addEvent("click", (targetEl) => {
+      if (targetEl.id === "title") {
+        removeAllCurrentClassName();
+      }
+    });
 
     this.addEvent("input", () => {
       const documentId = Number(notionRouter.params.id);

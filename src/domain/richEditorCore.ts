@@ -1,11 +1,15 @@
 import { createHTMLElement, removeAllClassName } from "@/services";
 
-export const addCurrentClassName = (targetEl: HTMLElement) => {
+export const removeAllCurrentClassName = () => {
   removeAllClassName({
     parentNode: document.querySelector("#content")!,
     selector: ".block",
     className: "current",
   });
+};
+
+export const addCurrentClassName = (targetEl: HTMLElement) => {
+  removeAllCurrentClassName();
   targetEl.classList.add("current");
 };
 
