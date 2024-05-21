@@ -71,6 +71,20 @@ class RichEditor extends Component {
           selection.setPosition(blockEl);
         }
       }
+
+      if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const currentEl = node as HTMLElement;
+
+          addCurrentClassName(currentEl);
+        }
+
+        if (node.nodeType === Node.TEXT_NODE) {
+          const parentEl = node.parentElement;
+
+          parentEl && addCurrentClassName(parentEl);
+        }
+      }
     });
 
     this.targetEl.addEventListener("keydown", (e) => {
@@ -139,14 +153,6 @@ class RichEditor extends Component {
           if (previousEl.innerHTML === "<br>") previousEl.innerHTML = "";
           addCurrentClassName(previousEl);
         }
-
-        if (node.nodeType === Node.TEXT_NODE) {
-          const parentEl = node.parentElement;
-          if (!parentEl) return;
-
-          const previousEl = parentEl.previousElementSibling as HTMLElement;
-          previousEl && addCurrentClassName(previousEl);
-        }
       }
 
       if (node && e.key === "ArrowDown") {
@@ -156,14 +162,6 @@ class RichEditor extends Component {
           if (!nextEl) return;
 
           addCurrentClassName(nextEl);
-        }
-
-        if (node.nodeType === Node.TEXT_NODE) {
-          const parentEl = node.parentElement;
-          if (!parentEl) return;
-
-          const nextEl = parentEl.nextElementSibling as HTMLElement;
-          nextEl && addCurrentClassName(nextEl);
         }
       }
     });
