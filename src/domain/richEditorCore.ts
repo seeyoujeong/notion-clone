@@ -21,7 +21,7 @@ export const createBlockElement = (
   });
   element.className = "block";
   element.style.padding = "3px 2px";
-  element.style.minHeight = "1em";
+  element.style.minHeight = "22px";
   addCurrentClassName(element);
 
   return element;
