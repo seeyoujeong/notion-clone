@@ -20,10 +20,10 @@ class RichEditor extends Component {
   }
 
   setEvent(): void {
-    this.targetEl.addEventListener("click", () => {
+    this.targetEl.addEventListener("mouseup", () => {
       const node = getSelection()?.focusNode;
 
-      if (node) {
+      if (node && node.nodeType !== Node.TEXT_NODE) {
         const currentEl = node as HTMLElement;
 
         addCurrentClassName(currentEl);
