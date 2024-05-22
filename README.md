@@ -5,7 +5,9 @@
 <kbd>
   <img height="500px" src="https://github.com/seeyoujeong/notion-clone/assets/40534414/8b6e0904-134f-4168-aaca-b4cd8d928284" />
 </kbd>
-  
+
+###
+
 `문서 목록 조회`
 
 - 사용자가 생성한 문서 목록을 조회할 수 있습니다.
@@ -27,6 +29,8 @@
 <kbd>
   <img height="400px" src="https://github.com/seeyoujeong/notion-clone/assets/40534414/5b14c35f-be3a-4185-8dcb-490ee49982a6" />
 </kbd>
+
+###
 
 각 페이지/컴포넌트의 역할은 아래와 같습니다.
 
