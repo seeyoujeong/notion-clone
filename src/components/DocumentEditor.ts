@@ -1,13 +1,9 @@
 import { Component } from "@/core";
-import {
-  documentEditorStore,
-  notionRouter,
-  notionService,
-  removeAllCurrentClassName,
-} from "@/domain";
+import { documentEditorStore, notionRouter, notionService } from "@/domain";
 import { resizeTextarea } from "@/services";
 import { debounce } from "@/utils";
 import RichEditor from "./RichEditor";
+import EditorTitle from "./EditorTitle";
 
 class DocumentEditor extends Component {
   init(): void {
@@ -15,22 +11,19 @@ class DocumentEditor extends Component {
   }
 
   template(): string {
-    const { title } = documentEditorStore.getState();
-
     return `
-      <div class="editor-title">
-        <textarea id="title" placeholder="제목 없음" rows="1">${
-          title || ""
-        }</textarea>
-      </div>
+      <div class="editor-title"></div>
       <div class="editor-content"></div>
     `;
   }
 
   mounted(): void {
-    resizeTextarea("#title");
+    const { title, content } = documentEditorStore.getState();
 
-    const { content } = documentEditorStore.getState();
+    new EditorTitle({
+      targetEl: document.querySelector(".editor-title")!,
+      state: title || "",
+    });
 
     new RichEditor({
       targetEl: document.querySelector(".editor-content")!,
@@ -43,12 +36,6 @@ class DocumentEditor extends Component {
       notionService.updateDocument,
       300
     );
-
-    this.addEvent("click", (targetEl) => {
-      if (targetEl.id === "title") {
-        removeAllCurrentClassName();
-      }
-    });
 
     this.addEvent("input", () => {
       const documentId = Number(notionRouter.params.id);
