@@ -2,8 +2,8 @@ import { Component } from "@/core";
 import { documentEditorStore, notionRouter, notionService } from "@/domain";
 import { resizeTextarea } from "@/services";
 import { debounce } from "@/utils";
-import RichEditor from "./RichEditor";
 import EditorTitle from "./EditorTitle";
+import EditorContent from "./EditorContent";
 
 class DocumentEditor extends Component {
   init(): void {
@@ -25,7 +25,7 @@ class DocumentEditor extends Component {
       state: title || "",
     });
 
-    new RichEditor({
+    new EditorContent({
       targetEl: document.querySelector(".editor-content")!,
       state: content || "",
     });

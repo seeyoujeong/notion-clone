@@ -7,7 +7,7 @@ import {
 } from "@/domain";
 import { createHTMLElement } from "@/services";
 
-class RichEditor extends Component {
+class EditorContent extends Component {
   template(): string {
     return `<div id="content" contenteditable="true">${this.state}</div>`;
   }
@@ -168,4 +168,4 @@ class RichEditor extends Component {
   }
 }
 
-export default RichEditor;
+export default EditorContent;
