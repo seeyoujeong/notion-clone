@@ -97,7 +97,7 @@ class EditorContent extends Component {
       const text = node.textContent;
 
       if (text && isCommand(text) && e.key === " ") {
-        handleCommand();
+        handleCommand(text);
 
         e.preventDefault();
       }
@@ -155,7 +155,7 @@ class EditorContent extends Component {
         }
       }
 
-      if (node && e.key === "ArrowDown") {
+      if (e.key === "ArrowDown") {
         if (node.nodeType === Node.ELEMENT_NODE) {
           const currentEl = node as HTMLElement;
           const nextEl = currentEl.nextElementSibling as HTMLElement;

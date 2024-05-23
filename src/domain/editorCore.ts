@@ -77,7 +77,7 @@ export const replaceElementWithPosition = (
   selection.setPosition(newEl);
 };
 
-export const handleCommand = () => {
+export const handleCommand = (command: TagInfoKeys) => {
   const node = getSelection()?.focusNode;
   if (!node || node.nodeType !== Node.TEXT_NODE) return;
 
@@ -85,13 +85,8 @@ export const handleCommand = () => {
   if (!parentElement) return;
 
   if (parentElement.classList.contains("block")) {
-    const text = node.textContent;
-
-    if (text && isCommand(text)) {
-      const blockEl = createBlockWithCommand(text);
-      addCurrentClassName(blockEl);
-
-      replaceElementWithPosition(parentElement, blockEl);
-    }
+    const blockEl = createBlockWithCommand(command);
+    addCurrentClassName(blockEl);
+    replaceElementWithPosition(parentElement, blockEl);
   }
 };
