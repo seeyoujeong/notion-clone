@@ -49,17 +49,17 @@ const tagInfo = {
 
 type TagInfoKeys = keyof typeof tagInfo;
 
-const createElementWithCommand = (command: TagInfoKeys) => {
+const createBlockWithCommand = (command: TagInfoKeys) => {
   const { tag, placeholder, fontSize } = tagInfo[command];
-  const element = createBlockElement(tag);
-  element.setAttribute("placeholder", placeholder);
+  const blockEl = createBlockElement(tag);
+  blockEl.setAttribute("placeholder", placeholder);
 
-  element.style.fontSize = fontSize;
-  element.style.margin = "0";
-  element.style.fontWeight = "600";
-  element.style.lineHeight = "1.3";
+  blockEl.style.fontSize = fontSize;
+  blockEl.style.margin = "0";
+  blockEl.style.fontWeight = "600";
+  blockEl.style.lineHeight = "1.3";
 
-  return element;
+  return blockEl;
 };
 
 export const isCommand = (text: string): text is TagInfoKeys => {
@@ -67,27 +67,31 @@ export const isCommand = (text: string): text is TagInfoKeys => {
 };
 
 export const replaceElementWithPosition = (
-  parentEl: HTMLElement,
-  targetEl: HTMLElement
+  targetEl: HTMLElement,
+  newEl: HTMLElement
 ) => {
   const selection = getSelection();
+  if (!selection) return;
 
-  parentEl.replaceWith(targetEl);
-  selection?.setPosition(targetEl, 0);
+  targetEl.replaceWith(newEl);
+  selection.setPosition(newEl);
 };
 
 export const handleCommand = () => {
   const node = getSelection()?.focusNode;
-  const parentElement = node?.parentElement;
+  if (!node || node.nodeType !== Node.TEXT_NODE) return;
 
-  if (node && parentElement?.classList.contains("block")) {
+  const { parentElement } = node;
+  if (!parentElement) return;
+
+  if (parentElement.classList.contains("block")) {
     const text = node.textContent;
 
     if (text && isCommand(text)) {
-      const element = createElementWithCommand(text);
-      addCurrentClassName(element);
+      const blockEl = createBlockWithCommand(text);
+      addCurrentClassName(blockEl);
 
-      replaceElementWithPosition(parentElement, element);
+      replaceElementWithPosition(parentElement, blockEl);
     }
   }
 };
