@@ -139,9 +139,12 @@ class EditorContent extends Component {
 
       if (e.key === "Backspace") {
         if (node.nodeType === Node.TEXT_NODE) {
-          if (selection.focusOffset === 0 && selection.anchorOffset === 0) {
-            const parentEl = node.parentElement!;
+          const parentEl = node.parentElement;
+          if (!parentEl) return;
 
+          addCurrentClassName(parentEl);
+
+          if (selection.focusOffset === 0 && selection.anchorOffset === 0) {
             if (parentEl.tagName !== "DIV") {
               const blockEl = createBlockElement();
               blockEl.innerHTML = parentEl.innerHTML;
