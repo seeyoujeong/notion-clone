@@ -123,6 +123,7 @@ class EditorContent extends Component {
         }
 
         if (node.nodeType === Node.TEXT_NODE) {
+          if (e.isComposing) return;
           const range = selection.getRangeAt(0);
 
           range.deleteContents();
