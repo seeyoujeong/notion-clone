@@ -35,7 +35,6 @@ const tagInfo = {
     placeholder: "제목 1",
     fontSize: "1.875em",
   },
-
   "##": {
     tag: "h3",
     placeholder: "제목 2",

@@ -67,7 +67,9 @@ class DocumentList extends Component<{}, DocumentListContent[]> {
   setEvent(): void {
     this.addEvent("click", (element) => {
       const liEl = element.closest("li");
-      const documentId = Number(liEl?.id);
+      if (!liEl) return;
+
+      const documentId = Number(liEl.id);
       const buttonEl = element.closest("button");
 
       if (buttonEl?.className === "addBtn") {
@@ -85,7 +87,9 @@ class DocumentList extends Component<{}, DocumentListContent[]> {
         return;
       }
 
-      if (element.closest("div")?.className === "title") {
+      const itemEl = liEl.children[0];
+
+      if (itemEl.classList.contains("document-item")) {
         notionService.moveDetailPage(documentId);
         removeAllClassName({
           parentNode: this.targetEl,
@@ -93,7 +97,7 @@ class DocumentList extends Component<{}, DocumentListContent[]> {
           className: "selected",
         });
 
-        liEl?.querySelector(".document-item")?.classList.add("selected");
+        itemEl.classList.add("selected");
       }
     });
   }
