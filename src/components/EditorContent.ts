@@ -50,22 +50,10 @@ class EditorContent extends Component {
       if (!node) return;
 
       if (e.key === "Backspace") {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const currentEl = node as HTMLElement;
-
-          currentEl.innerHTML = "";
-          addCurrentClassName(currentEl);
-        }
-
-        if (node.nodeType === Node.TEXT_NODE) {
-          const parentEl = node.parentElement;
-
-          parentEl && addCurrentClassName(parentEl);
-        }
-
         const contentEl = document.querySelector("#content")!;
 
         if (!contentEl.innerHTML) {
+          console.log("test");
           const blockEl = createBlockElement();
           contentEl.append(blockEl);
           selection.setPosition(blockEl);
@@ -143,6 +131,39 @@ class EditorContent extends Component {
         }
 
         selection.setPosition(blockEl);
+      }
+
+      if (e.key === "Backspace") {
+        if (node.nodeType === Node.TEXT_NODE) {
+          if (selection.focusOffset === 0 && selection.anchorOffset === 0) {
+            const parentEl = node.parentElement!;
+
+            if (parentEl.tagName !== "DIV") {
+              const blockEl = createBlockElement();
+              blockEl.innerHTML = parentEl.innerHTML;
+              parentEl.replaceWith(blockEl);
+              e.preventDefault();
+            }
+          }
+        }
+
+        if (node.nodeType === Node.ELEMENT_NODE) {
+          const currentEl = node as HTMLElement;
+          const previousEl = currentEl.previousElementSibling as HTMLElement;
+
+          if (previousEl && !previousEl.innerHTML) {
+            addCurrentClassName(previousEl);
+            selection.setPosition(previousEl);
+            currentEl.remove();
+            e.preventDefault();
+          }
+
+          if (currentEl.tagName !== "DIV") {
+            const blockEl = createBlockElement();
+            currentEl.replaceWith(blockEl);
+            e.preventDefault();
+          }
+        }
       }
 
       if (e.key === "ArrowUp") {
