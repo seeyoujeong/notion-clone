@@ -50,10 +50,14 @@ class EditorContent extends Component {
       if (!node) return;
 
       if (e.key === "Backspace") {
+        if (node.nodeType === Node.ELEMENT_NODE && node.textContent === "") {
+          const currentEl = node as HTMLElement;
+          currentEl.innerHTML = "";
+        }
+
         const contentEl = document.querySelector("#content")!;
 
         if (!contentEl.innerHTML) {
-          console.log("test");
           const blockEl = createBlockElement();
           contentEl.append(blockEl);
           selection.setPosition(blockEl);
