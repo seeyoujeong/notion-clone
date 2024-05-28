@@ -62,7 +62,8 @@ const createBlockWithCommand = (command: TagInfoKeys) => {
   return blockEl;
 };
 
-export const isCommand = (text: string): text is TagInfoKeys => {
+export const isCommand = (text: string | null): text is TagInfoKeys => {
+  if (!text) return false;
   return Object.keys(tagInfo).includes(text);
 };
 

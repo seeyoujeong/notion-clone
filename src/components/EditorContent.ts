@@ -88,7 +88,7 @@ class EditorContent extends Component {
 
       const text = node.textContent;
 
-      if (text && isCommand(text) && e.key === " ") {
+      if (e.key === " " && isCommand(text)) {
         handleCommand(text);
 
         e.preventDefault();
