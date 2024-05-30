@@ -150,6 +150,12 @@ class EditorContent extends Component {
               blockEl.innerHTML = parentEl.innerHTML;
               parentEl.replaceWith(blockEl);
               e.preventDefault();
+            } else {
+              const previousEl = parentEl.previousElementSibling as HTMLElement;
+
+              if (previousEl) {
+                addCurrentClassName(previousEl);
+              }
             }
           }
         }
@@ -158,11 +164,14 @@ class EditorContent extends Component {
           const currentEl = node as HTMLElement;
           const previousEl = currentEl.previousElementSibling as HTMLElement;
 
-          if (previousEl && !previousEl.innerHTML) {
+          if (previousEl) {
             addCurrentClassName(previousEl);
-            selection.setPosition(previousEl);
-            currentEl.remove();
-            e.preventDefault();
+
+            if (!previousEl.innerHTML && !currentEl.innerHTML) {
+              selection.setPosition(previousEl);
+              currentEl.remove();
+              e.preventDefault();
+            }
           }
 
           if (currentEl.tagName !== "DIV") {
