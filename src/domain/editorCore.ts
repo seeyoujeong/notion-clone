@@ -55,6 +55,7 @@ const createBlockWithCommand = (command: TagInfoKeys) => {
   blockEl.setAttribute("placeholder", placeholder);
 
   blockEl.style.fontSize = fontSize;
+  blockEl.style.minHeight = fontSize;
   blockEl.style.margin = "0";
   blockEl.style.fontWeight = "600";
   blockEl.style.lineHeight = "1.3";
