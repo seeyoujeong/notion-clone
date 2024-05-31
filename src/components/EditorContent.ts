@@ -31,14 +31,16 @@ class EditorContent extends Component<{}, string> {
 
       if (node.nodeType === Node.ELEMENT_NODE) {
         const currentEl = node as HTMLElement;
+        if (currentEl.id === "content") return;
 
         addCurrentClassName(currentEl);
       }
 
       if (node.nodeType === Node.TEXT_NODE) {
         const parentEl = node.parentElement;
+        if (!parentEl) return;
 
-        parentEl && addCurrentClassName(parentEl);
+        addCurrentClassName(parentEl);
       }
     });
 
@@ -77,8 +79,9 @@ class EditorContent extends Component<{}, string> {
 
         if (node.nodeType === Node.TEXT_NODE) {
           const parentEl = node.parentElement;
+          if (!parentEl) return;
 
-          parentEl && addCurrentClassName(parentEl);
+          addCurrentClassName(parentEl);
         }
       }
     });
