@@ -3,4 +3,12 @@ import { DocumentListContent } from "@/types";
 
 export const documentListStore = new Store<DocumentListContent[]>([]);
 
-export const documentEditorStore = new Store<any>({ title: "", content: "" });
+interface EditorContentType {
+  title: string;
+  content: string;
+}
+
+export const documentEditorStore = new Store<EditorContentType>({
+  title: "",
+  content: "",
+});

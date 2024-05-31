@@ -7,9 +7,9 @@ import {
 } from "@/domain";
 import { createHTMLElement } from "@/services";
 
-class EditorContent extends Component {
+class EditorContent extends Component<{}, string> {
   template(): string {
-    return `<div id="content" contenteditable="true">${this.state}</div>`;
+    return `<div id="content" contenteditable="true">${this.state || ""}</div>`;
   }
 
   mounted(): void {

@@ -2,10 +2,12 @@ import { Component } from "@/core";
 import { removeAllCurrentClassName } from "@/domain";
 import { resizeTextarea } from "@/services";
 
-class EditorTitle extends Component {
+class EditorTitle extends Component<{}, string> {
   template(): string {
     return `
-      <textarea id="title" placeholder="제목 없음" rows="1">${this.state}</textarea>
+      <textarea id="title" placeholder="제목 없음" rows="1">${
+        this.state || ""
+      }</textarea>
     `;
   }
 

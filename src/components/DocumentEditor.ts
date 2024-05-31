@@ -22,12 +22,12 @@ class DocumentEditor extends Component {
 
     new EditorTitle({
       targetEl: document.querySelector(".editor-title")!,
-      state: title || "",
+      state: title,
     });
 
     new EditorContent({
       targetEl: document.querySelector(".editor-content")!,
-      state: content || "",
+      state: content,
     });
   }
 
