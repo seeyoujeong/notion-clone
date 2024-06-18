@@ -93,3 +93,22 @@ export const handleCommand = (command: TagInfoKeys) => {
     replaceElementWithPosition(parentElement, blockEl);
   }
 };
+
+export const getFocusElement = () => {
+  const selection = getSelection();
+  if (!selection) return;
+
+  const node = selection.focusNode;
+  if (!node) return;
+
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    const currentEl = node as HTMLElement;
+    if (currentEl.id === "content") return;
+
+    return currentEl;
+  }
+
+  if (node.nodeType === Node.TEXT_NODE) {
+    return node.parentElement;
+  }
+};

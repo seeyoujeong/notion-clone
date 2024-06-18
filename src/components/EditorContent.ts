@@ -2,6 +2,7 @@ import { Component } from "@/core";
 import {
   addCurrentClassName,
   createBlockElement,
+  getFocusElement,
   handleCommand,
   isCommand,
 } from "@/domain";
@@ -40,56 +41,22 @@ class EditorContent extends Component<{}, string> {
 
   setEvent(): void {
     this.targetEl.addEventListener("mouseup", () => {
-      const selection = getSelection();
-      if (!selection) return;
+      const currentEl = getFocusElement();
+      if (!currentEl) return;
 
-      const node = selection.focusNode;
-      if (!node) return;
-
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const currentEl = node as HTMLElement;
-        if (currentEl.id === "content") return;
-
-        addCurrentClassName(currentEl);
-      }
-
-      if (node.nodeType === Node.TEXT_NODE) {
-        const parentEl = node.parentElement;
-        if (!parentEl) return;
-
-        addCurrentClassName(parentEl);
-      }
+      addCurrentClassName(currentEl);
     });
 
     this.targetEl.addEventListener("keyup", (e) => {
-      const selection = getSelection();
-      if (!selection) return;
-
-      const node = selection.focusNode;
-      if (!node) return;
+      const currentEl = getFocusElement();
+      if (!currentEl) return;
 
       if (e.key === "Backspace") {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const currentEl = node as HTMLElement;
-          if (currentEl.id === "content") return;
-
-          addCurrentClassName(currentEl);
-        }
+        addCurrentClassName(currentEl);
       }
 
       if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-        if (node.nodeType === Node.ELEMENT_NODE) {
-          const currentEl = node as HTMLElement;
-
-          addCurrentClassName(currentEl);
-        }
-
-        if (node.nodeType === Node.TEXT_NODE) {
-          const parentEl = node.parentElement;
-          if (!parentEl) return;
-
-          addCurrentClassName(parentEl);
-        }
+        addCurrentClassName(currentEl);
       }
     });
 
