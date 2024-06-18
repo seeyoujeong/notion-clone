@@ -69,15 +69,19 @@ export const isCommand = (text: string | null): text is TagInfoKeys => {
   return Object.keys(tagInfo).includes(text);
 };
 
+export const setCaret = (element: HTMLElement) => {
+  const selection = getSelection();
+  if (!selection) return;
+
+  selection.setPosition(element);
+};
+
 export const replaceElementWithPosition = (
   targetEl: HTMLElement,
   newEl: HTMLElement
 ) => {
-  const selection = getSelection();
-  if (!selection) return;
-
   targetEl.replaceWith(newEl);
-  selection.setPosition(newEl);
+  setCaret(newEl);
 };
 
 export const handleCommand = (command: TagInfoKeys) => {
@@ -109,6 +113,9 @@ export const getFocusElement = () => {
   }
 
   if (node.nodeType === Node.TEXT_NODE) {
-    return node.parentElement;
+    const parentEl = node.parentElement;
+    if (!parentEl) return;
+
+    return parentEl;
   }
 };
