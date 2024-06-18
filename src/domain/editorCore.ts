@@ -84,20 +84,6 @@ export const replaceElementWithPosition = (
   setCaret(newEl);
 };
 
-export const handleCommand = (command: TagInfoKeys) => {
-  const node = getSelection()?.focusNode;
-  if (!node || node.nodeType !== Node.TEXT_NODE) return;
-
-  const { parentElement } = node;
-  if (!parentElement) return;
-
-  if (parentElement.classList.contains("block")) {
-    const blockEl = createBlockWithCommand(command);
-    addCurrentClassName(blockEl);
-    replaceElementWithPosition(parentElement, blockEl);
-  }
-};
-
 export const getFocusElement = () => {
   const selection = getSelection();
   if (!selection) return;
@@ -117,5 +103,16 @@ export const getFocusElement = () => {
     if (!parentEl) return;
 
     return parentEl;
+  }
+};
+
+export const handleCommand = (command: TagInfoKeys) => {
+  const currentEl = getFocusElement();
+  if (!currentEl) return;
+
+  if (currentEl.classList.contains("block")) {
+    const blockEl = createBlockWithCommand(command);
+    addCurrentClassName(blockEl);
+    replaceElementWithPosition(currentEl, blockEl);
   }
 };
