@@ -19,6 +19,23 @@ class EditorContent extends Component<{}, string> {
       const blockEl = createBlockElement();
       contentEl.append(blockEl);
     }
+
+    const selection = getSelection();
+    if (!selection) return;
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach(() => {
+        if (!contentEl.innerHTML) {
+          const blockEl = createBlockElement();
+          contentEl.append(blockEl);
+          selection.setPosition(blockEl);
+        }
+      });
+    });
+
+    observer.observe(contentEl, {
+      childList: true,
+    });
   }
 
   setEvent(): void {
@@ -59,14 +76,6 @@ class EditorContent extends Component<{}, string> {
             addCurrentClassName(currentEl);
             if (currentEl.innerHTML === "<br>") currentEl.innerHTML = "";
           }
-        }
-
-        const contentEl = document.querySelector("#content")!;
-
-        if (!contentEl.innerHTML) {
-          const blockEl = createBlockElement();
-          contentEl.append(blockEl);
-          selection.setPosition(blockEl);
         }
       }
 
