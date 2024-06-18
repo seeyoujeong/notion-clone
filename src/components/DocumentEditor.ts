@@ -37,7 +37,7 @@ class DocumentEditor extends Component {
       300
     );
 
-    this.addEvent("input", () => {
+    this.addEvent("keyup", () => {
       const documentId = Number(notionRouter.params.id);
       const titleEl =
         this.targetEl.querySelector<HTMLTextAreaElement>("#title")!;
