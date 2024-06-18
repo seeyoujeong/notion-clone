@@ -69,13 +69,11 @@ class EditorContent extends Component<{}, string> {
       if (!node) return;
 
       if (e.key === "Backspace") {
-        if (node.nodeType === Node.ELEMENT_NODE && node.textContent === "") {
+        if (node.nodeType === Node.ELEMENT_NODE) {
           const currentEl = node as HTMLElement;
+          if (currentEl.id === "content") return;
 
-          if (currentEl.id !== "content") {
-            addCurrentClassName(currentEl);
-            if (currentEl.innerHTML === "<br>") currentEl.innerHTML = "";
-          }
+          addCurrentClassName(currentEl);
         }
       }
 
@@ -205,7 +203,6 @@ class EditorContent extends Component<{}, string> {
           const previousEl = currentEl.previousElementSibling as HTMLElement;
           if (!previousEl) return;
 
-          if (previousEl.innerHTML === "<br>") previousEl.innerHTML = "";
           addCurrentClassName(previousEl);
         }
       }

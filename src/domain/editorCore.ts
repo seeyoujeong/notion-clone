@@ -9,6 +9,7 @@ export const removeAllCurrentClassName = () => {
 };
 
 export const addCurrentClassName = (targetEl: HTMLElement) => {
+  if (targetEl.innerHTML === "<br>") targetEl.innerHTML = "";
   if (targetEl.classList.contains("current")) return;
 
   removeAllCurrentClassName();
