@@ -1,6 +1,6 @@
 import { ArrayItemType } from "@/types";
 
-class Store<State = any> {
+class Store<State = unknown> {
   private state: State;
   private observers: (() => void)[] = [];
 
