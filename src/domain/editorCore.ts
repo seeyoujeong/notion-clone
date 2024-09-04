@@ -61,10 +61,11 @@ export const setCaret = (element: HTMLElement) => {
 
 export const setFocus = (element: HTMLElement) => {
   if (
-    (element instanceof HTMLInputElement ||
-      element instanceof HTMLTextAreaElement) &&
-    element.value.length === 0
+    element instanceof HTMLInputElement ||
+    element instanceof HTMLTextAreaElement
   ) {
+    if (element.value.length !== 0) return;
+
     element.focus();
   } else {
     element.focus();
