@@ -30,6 +30,55 @@ export const createBlockElement = (
   return element;
 };
 
+export const getFocusElement = () => {
+  const selection = getSelection();
+  if (!selection) return;
+
+  const node = selection.focusNode;
+  if (!node) return;
+
+  if (node.nodeType === Node.ELEMENT_NODE) {
+    const currentEl = node as HTMLElement;
+    if (currentEl.id === "content") return;
+
+    return currentEl;
+  }
+
+  if (node.nodeType === Node.TEXT_NODE) {
+    const parentEl = node.parentElement;
+    if (!parentEl) return;
+
+    return parentEl;
+  }
+};
+
+export const setCaret = (element: HTMLElement) => {
+  const selection = getSelection();
+  if (!selection) return;
+
+  selection.setPosition(element);
+};
+
+export const setFocus = (element: HTMLElement) => {
+  if (
+    (element instanceof HTMLInputElement ||
+      element instanceof HTMLTextAreaElement) &&
+    element.value.length === 0
+  ) {
+    element.focus();
+  } else {
+    element.focus();
+  }
+};
+
+export const replaceElementWithPosition = (
+  targetEl: HTMLElement,
+  newEl: HTMLElement
+) => {
+  targetEl.replaceWith(newEl);
+  setCaret(newEl);
+};
+
 const tagInfo = {
   "#": {
     tag: "h2",
@@ -67,55 +116,6 @@ const createBlockWithCommand = (command: TagInfoKeys) => {
 export const isCommand = (text: string | null): text is TagInfoKeys => {
   if (!text) return false;
   return Object.keys(tagInfo).includes(text);
-};
-
-export const setCaret = (element: HTMLElement) => {
-  const selection = getSelection();
-  if (!selection) return;
-
-  selection.setPosition(element);
-};
-
-export const setFocus = (element: HTMLElement) => {
-  if (
-    (element instanceof HTMLInputElement ||
-      element instanceof HTMLTextAreaElement) &&
-    element.value.length === 0
-  ) {
-    element.focus();
-  } else {
-    element.focus();
-  }
-};
-
-export const replaceElementWithPosition = (
-  targetEl: HTMLElement,
-  newEl: HTMLElement
-) => {
-  targetEl.replaceWith(newEl);
-  setCaret(newEl);
-};
-
-export const getFocusElement = () => {
-  const selection = getSelection();
-  if (!selection) return;
-
-  const node = selection.focusNode;
-  if (!node) return;
-
-  if (node.nodeType === Node.ELEMENT_NODE) {
-    const currentEl = node as HTMLElement;
-    if (currentEl.id === "content") return;
-
-    return currentEl;
-  }
-
-  if (node.nodeType === Node.TEXT_NODE) {
-    const parentEl = node.parentElement;
-    if (!parentEl) return;
-
-    return parentEl;
-  }
 };
 
 export const handleCommand = (command: TagInfoKeys) => {
