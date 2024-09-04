@@ -5,6 +5,7 @@ import {
   getFocusElement,
   handleCommand,
   isCommand,
+  setCaret,
 } from "@/domain";
 import { createHTMLElement } from "@/services";
 
@@ -67,7 +68,10 @@ class EditorContent extends Component<{}, string> {
       const node = selection.focusNode;
       if (!node) return;
 
-      const text = node.textContent;
+      const currentEl = getFocusElement();
+      if (!currentEl) return;
+
+      const text = currentEl.textContent;
 
       if (e.key === " " && isCommand(text)) {
         handleCommand(text);
@@ -79,8 +83,6 @@ class EditorContent extends Component<{}, string> {
         const blockEl = createBlockElement();
 
         if (node.nodeType === Node.ELEMENT_NODE) {
-          const currentEl = node as HTMLElement;
-
           if (currentEl.innerHTML) {
             blockEl.innerHTML = currentEl.innerHTML;
             currentEl.innerHTML = "";
@@ -89,10 +91,6 @@ class EditorContent extends Component<{}, string> {
           if (blockEl.innerHTML === "<br>") {
             blockEl.innerHTML = "";
           }
-
-          currentEl.insertAdjacentElement("afterend", blockEl);
-
-          e.preventDefault();
         }
 
         if (node.nodeType === Node.TEXT_NODE) {
@@ -102,37 +100,32 @@ class EditorContent extends Component<{}, string> {
           range.deleteContents();
           range.insertNode(createHTMLElement("span", { id: "temp" }));
 
-          const parentEl = node.parentElement;
-          if (!parentEl) return;
-
-          const [beforeText, afterText] = parentEl.innerHTML.split(
+          const [beforeText, afterText] = currentEl.innerHTML.split(
             '<span id="temp"></span>'
           );
-          parentEl.innerHTML = beforeText;
+          currentEl.innerHTML = beforeText;
           blockEl.innerHTML = afterText;
-          parentEl.insertAdjacentElement("afterend", blockEl);
-
-          e.preventDefault();
         }
 
-        selection.setPosition(blockEl);
+        currentEl.insertAdjacentElement("afterend", blockEl);
+        setCaret(blockEl);
+
+        e.preventDefault();
       }
 
       if (e.key === "Backspace") {
         if (node.nodeType === Node.TEXT_NODE) {
-          const parentEl = node.parentElement;
-          if (!parentEl) return;
-
-          addCurrentClassName(parentEl);
+          addCurrentClassName(currentEl);
 
           if (selection.focusOffset === 0 && selection.anchorOffset === 0) {
-            if (parentEl.tagName !== "DIV") {
+            if (currentEl.tagName !== "DIV") {
               const blockEl = createBlockElement();
-              blockEl.innerHTML = parentEl.innerHTML;
-              parentEl.replaceWith(blockEl);
+              blockEl.innerHTML = currentEl.innerHTML;
+              currentEl.replaceWith(blockEl);
               e.preventDefault();
             } else {
-              const previousEl = parentEl.previousElementSibling as HTMLElement;
+              const previousEl =
+                currentEl.previousElementSibling as HTMLElement;
 
               if (previousEl) {
                 addCurrentClassName(previousEl);
@@ -142,8 +135,6 @@ class EditorContent extends Component<{}, string> {
         }
 
         if (node.nodeType === Node.ELEMENT_NODE) {
-          const currentEl = node as HTMLElement;
-
           if (currentEl.tagName !== "DIV") {
             const blockEl = createBlockElement();
             currentEl.replaceWith(blockEl);
@@ -166,7 +157,6 @@ class EditorContent extends Component<{}, string> {
 
       if (e.key === "ArrowUp") {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          const currentEl = node as HTMLElement;
           const previousEl = currentEl.previousElementSibling as HTMLElement;
           if (!previousEl) return;
 
@@ -176,7 +166,6 @@ class EditorContent extends Component<{}, string> {
 
       if (e.key === "ArrowDown") {
         if (node.nodeType === Node.ELEMENT_NODE) {
-          const currentEl = node as HTMLElement;
           const nextEl = currentEl.nextElementSibling as HTMLElement;
           if (!nextEl) return;
 
