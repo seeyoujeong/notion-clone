@@ -76,6 +76,18 @@ export const setCaret = (element: HTMLElement) => {
   selection.setPosition(element);
 };
 
+export const setFocus = (element: HTMLElement) => {
+  if (
+    (element instanceof HTMLInputElement ||
+      element instanceof HTMLTextAreaElement) &&
+    element.value.length === 0
+  ) {
+    element.focus();
+  } else {
+    element.focus();
+  }
+};
+
 export const replaceElementWithPosition = (
   targetEl: HTMLElement,
   newEl: HTMLElement
