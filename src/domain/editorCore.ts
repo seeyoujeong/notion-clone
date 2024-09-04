@@ -95,20 +95,44 @@ const tagInfo = {
     placeholder: "제목 3",
     fontSize: "1.25em",
   },
+  "-": {
+    tag: "li",
+    placeholder: "리스트",
+    fontSize: "1em",
+  },
 } as const;
 
 type TagInfoKeys = keyof typeof tagInfo;
 
 const createBlockWithCommand = (command: TagInfoKeys) => {
   const { tag, placeholder, fontSize } = tagInfo[command];
-  const blockEl = createBlockElement(tag);
-  blockEl.setAttribute("placeholder", placeholder);
+  let blockEl: HTMLElement;
 
-  blockEl.style.fontSize = fontSize;
-  blockEl.style.minHeight = fontSize;
-  blockEl.style.margin = "0";
-  blockEl.style.fontWeight = "600";
-  blockEl.style.lineHeight = "1.3";
+  if (tag === "li") {
+    const ulEl = createBlockElement("ul");
+    blockEl = createBlockElement(tag);
+    blockEl.setAttribute("placeholder", placeholder);
+    ulEl.appendChild(blockEl);
+
+    ulEl.style.margin = "0";
+    ulEl.style.paddingLeft = "1.5em";
+    ulEl.style.listStyle = "disc";
+
+    blockEl = ulEl;
+  } else {
+    blockEl = createBlockElement(tag);
+    blockEl.setAttribute("placeholder", placeholder);
+  }
+
+  const innerEl = tag === "li" ? (blockEl.firstChild as HTMLElement) : blockEl;
+  innerEl.style.fontSize = fontSize;
+  innerEl.style.minHeight = fontSize;
+  innerEl.style.margin = "0";
+  innerEl.style.lineHeight = "1.3";
+
+  if (tag.startsWith("h")) {
+    innerEl.style.fontWeight = "600";
+  }
 
   return blockEl;
 };

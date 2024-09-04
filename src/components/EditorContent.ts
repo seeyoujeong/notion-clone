@@ -71,18 +71,35 @@ class EditorContent extends Component<{}, string> {
       const text = currentEl.textContent;
 
       if (e.key === " " && isCommand(text)) {
+        if (currentEl.tagName === "LI") return;
+
         handleCommand(text);
 
         e.preventDefault();
       }
 
       if (e.key === "Enter") {
-        const blockEl = createBlockElement();
+        let blockEl: HTMLElement;
+
+        if (currentEl.tagName === "LI" && currentEl.innerHTML) {
+          blockEl = createBlockElement("li");
+        } else {
+          blockEl = createBlockElement();
+        }
 
         if (node.nodeType === Node.ELEMENT_NODE) {
           if (currentEl.innerHTML) {
             blockEl.innerHTML = currentEl.innerHTML;
             currentEl.innerHTML = "";
+          } else {
+            if (currentEl.tagName === "LI") {
+              currentEl.parentElement?.insertAdjacentElement(
+                "afterend",
+                blockEl
+              );
+              setCaret(blockEl);
+              currentEl.remove();
+            }
           }
 
           if (blockEl.innerHTML === "<br>") {
@@ -104,7 +121,12 @@ class EditorContent extends Component<{}, string> {
           blockEl.innerHTML = afterText;
         }
 
-        currentEl.insertAdjacentElement("afterend", blockEl);
+        if (currentEl.tagName === "UL") {
+          currentEl.remove();
+        } else {
+          currentEl.insertAdjacentElement("afterend", blockEl);
+        }
+
         setCaret(blockEl);
 
         e.preventDefault();
@@ -134,7 +156,22 @@ class EditorContent extends Component<{}, string> {
         if (node.nodeType === Node.ELEMENT_NODE) {
           if (currentEl.tagName !== "DIV") {
             const blockEl = createBlockElement();
-            currentEl.replaceWith(blockEl);
+
+            if (currentEl.tagName === "LI") {
+              const parentEl = currentEl.parentElement;
+
+              parentEl?.insertAdjacentElement("afterend", blockEl);
+              setCaret(blockEl);
+
+              if (!parentEl?.innerText) {
+                parentEl?.remove();
+              }
+
+              currentEl.remove();
+            } else {
+              currentEl.replaceWith(blockEl);
+            }
+
             e.preventDefault();
           } else {
             const previousEl = currentEl.previousElementSibling as HTMLElement;
