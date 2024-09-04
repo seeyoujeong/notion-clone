@@ -1,5 +1,5 @@
 import { Component } from "@/core";
-import { removeAllCurrentClassName } from "@/domain";
+import { removeAllCurrentClassName, setFocus } from "@/domain";
 import { resizeTextarea } from "@/services";
 
 class EditorTitle extends Component<{}, string> {
@@ -13,6 +13,10 @@ class EditorTitle extends Component<{}, string> {
 
   mounted(): void {
     resizeTextarea("#title");
+
+    const titleEl = document.querySelector<HTMLElement>("#title")!;
+
+    setFocus(titleEl);
   }
 
   setEvent(): void {
