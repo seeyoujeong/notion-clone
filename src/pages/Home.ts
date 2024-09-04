@@ -12,6 +12,7 @@ class Home extends Component {
           <li># + space : 제목 1</li>
           <li>## + space : 제목 2</li>
           <li>### + space : 제목 3</li>
+          <li>- + space : 리스트</li>
         </ul>
       </div>
     `;
