@@ -22,15 +22,12 @@ class EditorContent extends Component<{}, string> {
       contentEl.append(blockEl);
     }
 
-    const selection = getSelection();
-    if (!selection) return;
-
     const observer = new MutationObserver((mutations) => {
       mutations.forEach(() => {
         if (!contentEl.innerHTML) {
           const blockEl = createBlockElement();
           contentEl.append(blockEl);
-          selection.setPosition(blockEl);
+          setCaret(blockEl);
         }
       });
     });
