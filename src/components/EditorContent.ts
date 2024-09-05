@@ -179,7 +179,7 @@ class EditorContent extends Component<{}, string> {
               addCurrentClassName(previousEl);
 
               if (!previousEl.innerHTML && !currentEl.innerHTML) {
-                selection.setPosition(previousEl);
+                setCaret(previousEl);
                 currentEl.remove();
                 e.preventDefault();
               }
