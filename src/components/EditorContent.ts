@@ -2,6 +2,8 @@ import { Component } from "@/core";
 import {
   addCurrentClassName,
   createBlockElement,
+  getCurrentNodeType,
+  getCurrentRage,
   getFocusElement,
   handleCommand,
   isCommand,
@@ -58,12 +60,6 @@ class EditorContent extends Component<{}, string> {
     });
 
     this.targetEl.addEventListener("keydown", (e) => {
-      const selection = getSelection();
-      if (!selection) return;
-
-      const node = selection.focusNode;
-      if (!node) return;
-
       const currentEl = getFocusElement();
       if (!currentEl) return;
 
@@ -77,6 +73,8 @@ class EditorContent extends Component<{}, string> {
         e.preventDefault();
       }
 
+      const nodeType = getCurrentNodeType();
+
       if (e.key === "Enter") {
         let blockEl: HTMLElement;
 
@@ -86,7 +84,7 @@ class EditorContent extends Component<{}, string> {
           blockEl = createBlockElement();
         }
 
-        if (node.nodeType === Node.ELEMENT_NODE) {
+        if (nodeType === Node.ELEMENT_NODE) {
           if (currentEl.innerHTML) {
             blockEl.innerHTML = currentEl.innerHTML;
             currentEl.innerHTML = "";
@@ -106,9 +104,11 @@ class EditorContent extends Component<{}, string> {
           }
         }
 
-        if (node.nodeType === Node.TEXT_NODE) {
+        if (nodeType === Node.TEXT_NODE) {
           if (e.isComposing) return;
-          const range = selection.getRangeAt(0);
+
+          const range = getCurrentRage();
+          if (!range) return;
 
           range.deleteContents();
           range.insertNode(createHTMLElement("span", { id: "temp" }));
@@ -132,8 +132,11 @@ class EditorContent extends Component<{}, string> {
       }
 
       if (e.key === "Backspace") {
-        if (node.nodeType === Node.TEXT_NODE) {
+        if (nodeType === Node.TEXT_NODE) {
           addCurrentClassName(currentEl);
+
+          const selection = getSelection();
+          if (!selection) return;
 
           if (selection.focusOffset === 0 && selection.anchorOffset === 0) {
             if (currentEl.tagName !== "DIV") {
@@ -152,7 +155,7 @@ class EditorContent extends Component<{}, string> {
           }
         }
 
-        if (node.nodeType === Node.ELEMENT_NODE) {
+        if (nodeType === Node.ELEMENT_NODE) {
           if (currentEl.tagName !== "DIV") {
             const blockEl = createBlockElement();
 
@@ -189,7 +192,7 @@ class EditorContent extends Component<{}, string> {
       }
 
       if (e.key === "ArrowUp") {
-        if (node.nodeType === Node.ELEMENT_NODE) {
+        if (nodeType === Node.ELEMENT_NODE) {
           const previousEl = currentEl.previousElementSibling as HTMLElement;
           if (!previousEl) return;
 
@@ -198,7 +201,7 @@ class EditorContent extends Component<{}, string> {
       }
 
       if (e.key === "ArrowDown") {
-        if (node.nodeType === Node.ELEMENT_NODE) {
+        if (nodeType === Node.ELEMENT_NODE) {
           const nextEl = currentEl.nextElementSibling as HTMLElement;
           if (!nextEl) return;
 
