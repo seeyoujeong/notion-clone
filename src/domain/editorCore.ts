@@ -52,6 +52,13 @@ export const getFocusElement = () => {
   }
 };
 
+export const getCurrentRage = () => {
+  const selection = getSelection();
+  if (!selection) return;
+
+  return selection.getRangeAt(0);
+};
+
 export const setCaret = (element: HTMLElement) => {
   const selection = getSelection();
   if (!selection) return;
