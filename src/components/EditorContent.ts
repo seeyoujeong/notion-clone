@@ -27,7 +27,6 @@ class EditorContent extends Component<{}, string> {
         if (!contentEl.innerHTML) {
           const blockEl = createBlockElement();
           contentEl.append(blockEl);
-          setCaret(blockEl);
         }
       });
     });
