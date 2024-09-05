@@ -59,6 +59,16 @@ export const getCurrentRage = () => {
   return selection.getRangeAt(0);
 };
 
+export const getCurrentNodeType = () => {
+  const selection = getSelection();
+  if (!selection) return;
+
+  const node = selection.focusNode;
+  if (!node) return;
+
+  return node.nodeType;
+};
+
 export const setCaret = (element: HTMLElement) => {
   const selection = getSelection();
   if (!selection) return;
