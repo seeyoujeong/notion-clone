@@ -1,14 +1,40 @@
 import { joinWithSlash } from "@/utils";
 
+const FETCH_TIMEOUT = 3000;
+
+const fetchWithTimeout = async (url: string, options?: RequestInit) => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+
+    clearTimeout(timeoutId);
+
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+
+    throw error;
+  }
+};
+
 const fetchWrapper = async (url: string, options?: RequestInit) => {
   try {
-    const response = await fetch(url, options);
+    const response = await fetchWithTimeout(url, options);
 
     if (response.ok) {
       return await response.json();
     }
   } catch (error) {
-    console.error("fetchWrapper: ", error);
+    if (error instanceof Error && error.name === "AbortError") {
+      console.log("time out!");
+    } else {
+      console.error("fetchWrapper: ", error);
+    }
   }
 };
 
