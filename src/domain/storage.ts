@@ -68,10 +68,11 @@ export const documentListStateManager = {
     };
 
     if (parentId) {
-      const parentDocument = this.getDocumentContent(parentId);
+      const documentList = this.getDocumentList();
+      const parentDocument = this.findDocumentById(documentList, parentId);
       if (parentDocument) {
         parentDocument.documents.push(newDocument);
-        documentListStorage.setItem(this.getDocumentList());
+        documentListStorage.setItem(documentList);
       }
     } else {
       documentListStorage.setItem([...this.getDocumentList(), newDocument]);
