@@ -2,7 +2,7 @@ import { API_ENDPOINT_URL, API_HEADER_X_USERNAME } from "@/constants";
 import { createApiClient } from "@/services";
 import { DocumentContent, ResponsePostDocument, RootDocument } from "@/types";
 import { addIsToggledToDocuments, joinWithSlash } from "@/utils";
-import { toggledStorage } from ".";
+import { toggleStateManager, documentListStateManager } from ".";
 
 const notionApiClient = createApiClient(API_ENDPOINT_URL, {
   headers: {
@@ -17,37 +17,73 @@ const DOCUMENTS = "documents";
 
 const notionApi = {
   async getAllDocuments() {
-    const documents = await notionApiClient.get<RootDocument[]>(DOCUMENTS);
-    const convertedDocuments = addIsToggledToDocuments(
-      documents,
-      toggledStorage.getIdList()
-    );
+    try {
+      const documents = await notionApiClient.get<RootDocument[]>(DOCUMENTS);
 
-    return convertedDocuments;
+      const convertedDocuments = addIsToggledToDocuments(
+        documents,
+        toggleStateManager.getIdList()
+      );
+
+      return convertedDocuments;
+    } catch (error) {
+      if (error instanceof Error && error.name === "AbortError") {
+        const documents = documentListStateManager.getDocumentList();
+
+        const convertedDocuments = addIsToggledToDocuments(
+          documents,
+          toggleStateManager.getIdList()
+        );
+
+        return convertedDocuments;
+      }
+
+      return [];
+    }
   },
   async getDocumentContent(id: number) {
-    const content = await notionApiClient.get<DocumentContent>(
-      joinWithSlash(DOCUMENTS, id)
-    );
+    try {
+      const content = await notionApiClient.get<DocumentContent>(
+        joinWithSlash(DOCUMENTS, id)
+      );
 
-    return content;
+      return content;
+    } catch (error) {
+      const content = documentListStateManager.getDocumentContent(id);
+
+      return content;
+    }
   },
   async postDocument(title: string, parentId: number | null = null) {
-    const content = await notionApiClient.post<ResponsePostDocument>(
-      DOCUMENTS,
-      {
-        title,
-        parent: parentId,
-      }
-    );
+    try {
+      const content = await notionApiClient.post<ResponsePostDocument>(
+        DOCUMENTS,
+        {
+          title,
+          parent: parentId,
+        }
+      );
 
-    return content;
+      return content;
+    } catch (error) {
+      const content = documentListStateManager.addDocument(title, parentId);
+
+      return content;
+    }
   },
   async putDocument(id: number, editedContent: EditedContent) {
-    await notionApiClient.put(joinWithSlash(DOCUMENTS, id), editedContent);
+    try {
+      await notionApiClient.put(joinWithSlash(DOCUMENTS, id), editedContent);
+    } catch (error) {
+      documentListStateManager.updateDocument(id, editedContent);
+    }
   },
   async deleteDocument(id: number) {
-    await notionApiClient.delete(joinWithSlash(DOCUMENTS, id));
+    try {
+      await notionApiClient.delete(joinWithSlash(DOCUMENTS, id));
+    } catch (error) {
+      documentListStateManager.deleteDocument(id);
+    }
   },
 };
 

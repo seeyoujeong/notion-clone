@@ -1,6 +1,6 @@
 import { joinWithSlash } from "@/utils";
 
-const FETCH_TIMEOUT = 3000;
+const FETCH_TIMEOUT = 100;
 
 const fetchWithTimeout = async (url: string, options?: RequestInit) => {
   const controller = new AbortController();
@@ -31,7 +31,7 @@ const fetchWrapper = async (url: string, options?: RequestInit) => {
     }
   } catch (error) {
     if (error instanceof Error && error.name === "AbortError") {
-      console.log("time out!");
+      throw error;
     } else {
       console.error("fetchWrapper: ", error);
     }

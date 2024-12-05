@@ -4,14 +4,14 @@ import {
   documentListStore,
   notionApi,
   notionRouter,
-  toggledStorage,
+  toggleStateManager,
 } from ".";
 import { addIsToggledToDocuments } from "@/utils";
 
 const notionService = {
   async addDocument(parentId: number | null) {
     const { id } = await notionApi.postDocument("", parentId);
-    parentId && toggledStorage.addId(parentId);
+    parentId && toggleStateManager.addId(parentId);
 
     browserHistory.push(String(id));
 
@@ -19,7 +19,7 @@ const notionService = {
   },
   async deleteDocument(id: number) {
     await notionApi.deleteDocument(id);
-    toggledStorage.deleteId(id);
+    toggleStateManager.deleteId(id);
 
     documentListStore.setState(await notionApi.getAllDocuments());
 
@@ -36,15 +36,15 @@ const notionService = {
     documentListStore.setState(await notionApi.getAllDocuments());
   },
   toggleDocument(id: number) {
-    if (toggledStorage.has(id)) {
-      toggledStorage.deleteId(id);
+    if (toggleStateManager.has(id)) {
+      toggleStateManager.deleteId(id);
     } else {
-      toggledStorage.addId(id);
+      toggleStateManager.addId(id);
     }
 
     const convertedDocuments = addIsToggledToDocuments(
       documentListStore.getState(),
-      toggledStorage.getIdList()
+      toggleStateManager.getIdList()
     );
 
     documentListStore.setState(convertedDocuments);
@@ -54,9 +54,14 @@ const notionService = {
   },
   async getDocumentContent(id: number) {
     try {
-      const { title, content } = await notionApi.getDocumentContent(id);
+      const content = await notionApi.getDocumentContent(id);
 
-      documentEditorStore.setState({ title, content });
+      if (content) {
+        documentEditorStore.setState({
+          title: content.title,
+          content: content.content,
+        });
+      }
     } catch (err) {
       alert("없는 문서입니다.");
       browserHistory.replace("/");
