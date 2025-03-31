@@ -27,7 +27,7 @@ const notionApi = {
 
       return convertedDocuments;
     } catch (error) {
-      if (error instanceof Error && error.name === "AbortError") {
+      if (error instanceof Error) {
         const documents = documentListStateManager.getDocumentList();
 
         const convertedDocuments = addIsToggledToDocuments(

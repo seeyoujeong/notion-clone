@@ -34,6 +34,7 @@ const fetchWrapper = async (url: string, options?: RequestInit) => {
       throw error;
     } else {
       console.error("fetchWrapper: ", error);
+      throw error;
     }
   }
 };
